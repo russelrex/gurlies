@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, CSSProperties } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import type { CSSProperties } from 'react';
 import {
   Icon, Ph, Reveal,
   Header, ProductCard, Testimonials, CartDrawer,

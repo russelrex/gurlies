@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, CSSProperties, ReactNode } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 const TWEAKS_STYLE = `
   .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;

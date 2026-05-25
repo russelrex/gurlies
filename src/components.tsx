@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, CSSProperties, ReactNode, ElementType } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import type { CSSProperties, ReactNode, ElementType } from 'react';
 
 /* ── Icons ──────────────────────────────────────────────────────────── */
 type IconName = 'search' | 'bag' | 'user' | 'heart' | 'x' | 'arrow' | 'arrowUp' | 'chevL' | 'chevR' | 'plus' | 'minus' | 'ig' | 'tiktok' | 'pin' | 'spark';
