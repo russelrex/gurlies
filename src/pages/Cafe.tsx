@@ -4,7 +4,7 @@ function CafeHero() {
   return (
     <section className="cafe-hero">
       <div className="cafe-hero__bg">
-        <img src="/blogs/pic01.jpg" alt="Friends gathered outside Hey Gurlies café" />
+        <img src="/blogs/pic16.jpg" alt="Friends gathered outside Hey Gurlies café" />
       </div>
       <div className="container cafe-hero__inner">
         <Reveal>
