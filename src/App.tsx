@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { CSSProperties } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import {
   Icon, Ph, Reveal,
-  Header, ProductCard, BlogCarousel, Testimonials, CartDrawer,
+  Header, ProductCard, Testimonials, CartDrawer,
   CATEGORIES, PRODUCTS, FILTERS, WHY, UNSPLASH,
 } from './components';
 import type { Product, CartItem } from './components';
+import Cafe from './pages/Cafe';
+import { ScrollToTop } from './ScrollToTop';
 import {
   useTweaks, TweaksPanel, TweakSection, TweakText, TweakRadio, TweakToggle, TweakColor,
 } from './tweaks';
@@ -77,7 +80,7 @@ function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
             <button className="btn btn--primary">
               Shop Collection <Icon name="arrow" size={16} sw={1.8} />
             </button>
-            <a className="btn btn--ghost" href="#menu">Visit the Café</a>
+            <Link className="btn btn--ghost" to="/cafe">Visit the Café</Link>
           </div>
         </div>
         <div className="hero__meta">
@@ -94,34 +97,6 @@ function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
         </div>
       </div>
       <div className="hero__scroll">scroll · keep going</div>
-    </section>
-  );
-}
-
-/* ── Café menu ──────────────────────────────────────────────────────── */
-function CafeMenu() {
-  return (
-    <section className="sec menu" id="menu">
-      <div className="container">
-        <Reveal className="sec__head">
-          <h2 className="sec__title">
-            Coffee<br /><i>menu.</i> <span className="script">Sip in style.</span>
-          </h2>
-          <div className="sec__intro">
-            <span className="eyebrow">Hey Gurlies! · The café upstairs</span>
-            Hot pours, iced classics, and a few non-coffee sodas — all priced for lingering.
-          </div>
-        </Reveal>
-        <Reveal className="menu__frame" delay={80}>
-          <img
-            className="menu__img"
-            src="/menu.png"
-            alt="Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP"
-            loading="lazy"
-            decoding="async"
-          />
-        </Reveal>
-      </div>
     </section>
   );
 }
@@ -212,7 +187,7 @@ function NewArrivals({ wishlist, onWish, onAdd }: {
 /* ── Lifestyle split ────────────────────────────────────────────────── */
 function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
   return (
-    <section className="sec" id="cafe" style={{ background: 'var(--cream-2)' }}>
+    <section className="sec" id="lifestyle" style={{ background: 'var(--cream-2)' }}>
       <div className="container split">
         {scriptAccents && (
           <>
@@ -239,9 +214,9 @@ function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
             <div>
               <h3>The café, upstairs.</h3>
               <p>Oat matcha, vinyl, and a 6-stool counter where strangers become group-chat regulars. Open daily, 8am to 7pm.</p>
-              <a className="sec__link" href="#cafe" style={{ marginTop: 16, display: 'inline-flex' }}>
+              <Link className="sec__link" to="/cafe" style={{ marginTop: 16, display: 'inline-flex' }}>
                 Find the café <Icon name="pin" size={14} sw={1.8} />
-              </a>
+              </Link>
             </div>
           </div>
           <Ph variant="coffee" src={UNSPLASH.splitCafe} alt="Cozy café interior" />
@@ -474,27 +449,28 @@ export default function App() {
     showToast('Removed from bag');
   }, []);
 
-  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
-
   return (
-    <>
-      <Header
-        cartCount={cartCount}
-        wishCount={wishlist.size}
-        onCart={() => setCartOpen(true)}
-        onWish={() => showToast(`You ♡ ${wishlist.size} piece${wishlist.size === 1 ? '' : 's'}`)}
-      />
-      <main>
-        <Hero t={t} />
-        <CafeMenu />
-        <BlogCarousel />
-        <Categories />
-        <NewArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
-        <LifestyleSplit scriptAccents={t.scriptAccents} />
-        <Why />
-        <Testimonials />
-        <Newsletter showBlobs={t.showBlobs} />
-      </main>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Header />
+      <Routes>
+        <Route path="/" element={
+          <main>
+            <Hero t={t} />
+            <Categories />
+            <NewArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
+            <LifestyleSplit scriptAccents={t.scriptAccents} />
+            <Why />
+            <Testimonials />
+            <Newsletter showBlobs={t.showBlobs} />
+          </main>
+        } />
+        <Route path="/cafe" element={
+          <main>
+            <Cafe />
+          </main>
+        } />
+      </Routes>
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)}
                   items={cart} onQty={onQty} onRemove={onRemove} />
@@ -519,6 +495,6 @@ export default function App() {
         <TweakToggle label="Newsletter blobs" value={t.showBlobs}
                      onChange={(v) => setTweak('showBlobs', v)} />
       </TweaksPanel>
-    </>
+    </BrowserRouter>
   );
 }

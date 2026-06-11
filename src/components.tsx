@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import type { CSSProperties, ReactNode, ElementType } from 'react';
 
 /* ── Icons ──────────────────────────────────────────────────────────── */
@@ -171,10 +172,17 @@ export const TESTIMONIALS = [
     by: 'Kira · Stockholm', meta: 'Verified — 5 orders', v: 'blush' as PhVariant, avatar: UNSPLASH.avatarBlush,  alt: 'Kira' },
 ];
 
+/* ── Nav ────────────────────────────────────────────────────────────── */
+export const NAV_ITEMS = [
+  { label: 'Shop',         to: '/',              hash: 'shop' },
+  { label: 'Café',         to: '/cafe' },
+  { label: 'New Arrivals', to: '/',              hash: 'new-arrivals' },
+  { label: 'Journal',      to: '/',              hash: 'journal' },
+  { label: 'About',        to: '/',              hash: 'about' },
+] as const;
+
 /* ── Header ─────────────────────────────────────────────────────────── */
-export function Header({ cartCount, wishCount, onCart, onWish }: {
-  cartCount: number; wishCount: number; onCart: () => void; onWish: () => void;
-}) {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 60);
@@ -182,7 +190,18 @@ export function Header({ cartCount, wishCount, onCart, onWish }: {
     window.addEventListener('scroll', on, { passive: true });
     return () => window.removeEventListener('scroll', on);
   }, []);
-  const navItems = ['Shop', 'Menu', 'Blog', 'New Arrivals', 'Vintage', 'Café', 'Journal', 'About'];
+  const location = useLocation();
+  const navItems = NAV_ITEMS;
+  const navTo = (item: typeof NAV_ITEMS[number]) =>
+    'hash' in item && item.hash
+      ? { pathname: item.to, hash: `#${item.hash}` }
+      : item.to;
+  const isActive = (item: typeof NAV_ITEMS[number]) => {
+    if (item.to === '/cafe') return location.pathname === '/cafe';
+    if (location.pathname !== '/') return false;
+    if (!('hash' in item) || !item.hash) return location.hash === '' || location.hash === '#shop';
+    return location.hash === `#${item.hash}`;
+  };
   return (
     <>
       <div className="hdr__marquee">
@@ -201,24 +220,16 @@ export function Header({ cartCount, wishCount, onCart, onWish }: {
       </div>
       <header className="hdr" data-scrolled={scrolled ? '1' : '0'}>
         <div className="container hdr__bar">
-          <a href="#" className="hdr__logo" aria-label="Hey Gurlies! home">
+          <Link to="/" className="hdr__logo" aria-label="Hey Gurlies! home">
             <img className="hdr__logo-img" src="/heygurlies_logo.png" alt="Hey Gurlies!" />
-          </a>
+          </Link>
           <nav className="hdr__nav">
-            {navItems.map(n => <a key={n} href={`#${n.toLowerCase().replace(/\s/g, '-')}`}>{n}</a>)}
+            {navItems.map(n => (
+              <Link key={n.label} to={navTo(n)} className="hdr__nav-link" data-active={isActive(n) ? '1' : '0'}>
+                {n.label}
+              </Link>
+            ))}
           </nav>
-          <div className="hdr__icons">
-            <button aria-label="Search"><Icon name="search" /></button>
-            <button aria-label="Account"><Icon name="user" /></button>
-            <button aria-label="Wishlist" onClick={onWish}>
-              <Icon name="heart" />
-              {wishCount > 0 && <span className="hdr__cart-dot">{wishCount}</span>}
-            </button>
-            <button aria-label="Cart" onClick={onCart}>
-              <Icon name="bag" />
-              {cartCount > 0 && <span className="hdr__cart-dot">{cartCount}</span>}
-            </button>
-          </div>
         </div>
       </header>
     </>
@@ -269,6 +280,34 @@ export function ProductCard({ p, wished, onWish, onAdd }: {
         </div>
       </div>
     </article>
+  );
+}
+
+/* ── Café menu ──────────────────────────────────────────────────────── */
+export function CafeMenu() {
+  return (
+    <section className="sec menu" id="menu">
+      <div className="container">
+        <Reveal className="sec__head">
+          <h2 className="sec__title">
+            Coffee<br /><i>menu.</i> <span className="script">Sip in style.</span>
+          </h2>
+          <div className="sec__intro">
+            <span className="eyebrow">Hey Gurlies! · The café upstairs</span>
+            Hot pours, iced classics, and a few non-coffee sodas — all priced for lingering.
+          </div>
+        </Reveal>
+        <Reveal className="menu__frame" delay={80}>
+          <img
+            className="menu__img"
+            src="/menu.png"
+            alt="Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP"
+            loading="lazy"
+            decoding="async"
+          />
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
