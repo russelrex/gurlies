@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { CSSProperties } from 'react';
 import {
   Icon, Ph, Reveal,
-  Header, ProductCard, Testimonials, CartDrawer,
-  CATEGORIES, PRODUCTS, FILTERS, WHY, IG_TILES, UNSPLASH,
+  Header, ProductCard, BlogCarousel, Testimonials, CartDrawer,
+  CATEGORIES, PRODUCTS, FILTERS, WHY, UNSPLASH,
 } from './components';
 import type { Product, CartItem } from './components';
 import {
@@ -77,7 +77,7 @@ function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
             <button className="btn btn--primary">
               Shop Collection <Icon name="arrow" size={16} sw={1.8} />
             </button>
-            <button className="btn btn--ghost">Visit the Café</button>
+            <a className="btn btn--ghost" href="#menu">Visit the Café</a>
           </div>
         </div>
         <div className="hero__meta">
@@ -94,6 +94,34 @@ function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
         </div>
       </div>
       <div className="hero__scroll">scroll · keep going</div>
+    </section>
+  );
+}
+
+/* ── Café menu ──────────────────────────────────────────────────────── */
+function CafeMenu() {
+  return (
+    <section className="sec menu" id="menu">
+      <div className="container">
+        <Reveal className="sec__head">
+          <h2 className="sec__title">
+            Coffee<br /><i>menu.</i> <span className="script">Sip in style.</span>
+          </h2>
+          <div className="sec__intro">
+            <span className="eyebrow">Hey Gurlies! · The café upstairs</span>
+            Hot pours, iced classics, and a few non-coffee sodas — all priced for lingering.
+          </div>
+        </Reveal>
+        <Reveal className="menu__frame" delay={80}>
+          <img
+            className="menu__img"
+            src="/menu.png"
+            alt="Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP"
+            loading="lazy"
+            decoding="async"
+          />
+        </Reveal>
+      </div>
     </section>
   );
 }
@@ -253,38 +281,6 @@ function Why() {
   );
 }
 
-/* ── IG / TikTok feed ───────────────────────────────────────────────── */
-function Feed() {
-  return (
-    <section className="sec" id="feed">
-      <div className="container">
-        <Reveal className="sec__head">
-          <h2 className="sec__title">
-            On the grid,<br />
-            <span className="script">in your tabs.</span>
-          </h2>
-          <div className="sec__intro" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <span className="eyebrow">@heygurlies · 24.6k</span>
-            Outfit posts, café shots and the occasional Sunday rant. Tag us — we repost the ones with the best lighting.
-            <div style={{ display: 'flex', gap: 10 }}>
-              <a className="btn btn--blush btn--sm"><Icon name="ig" size={14} /> Instagram</a>
-              <a className="btn btn--blush btn--sm"><Icon name="tiktok" size={14} /> TikTok</a>
-            </div>
-          </div>
-        </Reveal>
-        <Reveal className="ig">
-          {IG_TILES.map((tile, i) => (
-            <div key={i} className={`ig__tile ig__tile--${tile.size}`}>
-              <Ph variant={tile.v} src={tile.img} alt={tile.alt} />
-              <span className="ig__handle">{tile.handle}</span>
-            </div>
-          ))}
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ── Newsletter ─────────────────────────────────────────────────────── */
 function Newsletter({ showBlobs }: { showBlobs: boolean }) {
   const [email, setEmail] = useState('');
@@ -350,9 +346,7 @@ function Footer() {
       <div className="container">
         <div className="foot__top">
           <div>
-            <div className="foot__brand-name">
-              <i style={{ fontFamily: 'var(--ff-script)' }}>hey</i> gurlies<span className="script" style={{ color: 'var(--blush)' }}>!</span>
-            </div>
+            <img className="foot__brand-logo" src="/heygurlies_logo.png" alt="Hey Gurlies!" />
             <p className="foot__brand-line">Curated thrift fashion + the slowest café in Lisbon. Sip, style &amp; stay awhile.</p>
             <div className="foot__social">
               <a aria-label="Instagram"><Icon name="ig" size={16} /></a>
@@ -492,11 +486,12 @@ export default function App() {
       />
       <main>
         <Hero t={t} />
+        <CafeMenu />
+        <BlogCarousel />
         <Categories />
         <NewArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
         <LifestyleSplit scriptAccents={t.scriptAccents} />
         <Why />
-        <Feed />
         <Testimonials />
         <Newsletter showBlobs={t.showBlobs} />
       </main>

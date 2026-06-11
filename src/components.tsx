@@ -67,15 +67,6 @@ export const UNSPLASH = {
   prodAlt6:      U('photo-1445205170230-053b83016050', 700),
   prodAlt7:      U('photo-1496747611176-843222e1e57c', 700),
   prodAlt8:      U('photo-1576566588028-4147f3842f27', 700),
-  igOutfit:      U('photo-1515372039744-b8f02a3ae446', 600),
-  igFlatLay:     U('photo-1445205170230-053b83016050', 600),
-  igLatte:       U('photo-1554118811-1e0d58224f24', 600),
-  igHaul:        U('photo-1551028719-00167b16eac5', 800),
-  igRail:        U('photo-1617137968427-85924c800a22', 600),
-  igDetails:     U('photo-1583743814966-8936f5b7be1a', 600),
-  igMorning:     U('photo-1591047139829-d91aecb6caea', 800),
-  igEspresso:    U('photo-1558618666-fcd25c85cd64', 600),
-  igStyling:     U('photo-1434389677669-e08b4cac3105', 600),
   avatarBlush:   U('photo-1534528741775-53994a69daeb', 200),
   avatarNude:    U('photo-1524504388940-b1c1722653e1', 200),
   avatarCoffee:  U('photo-1544005313-94ddf0286df2', 200),
@@ -167,18 +158,6 @@ export const WHY = [
   { num: '05', title: 'Slow-fashion math', body: 'One thrifted dress saves 2,700L of water vs. fast fashion. Receipts on every tag.' },
 ];
 
-export const IG_TILES = [
-  { handle: '@itsmaeve',     v: 'blush'  as PhVariant, size: 'lg', img: UNSPLASH.igOutfit,   alt: 'Outfit mirror selfie' },
-  { handle: '@noor.wears',   v: 'nude'   as PhVariant, size: 'sm', img: UNSPLASH.igFlatLay,  alt: 'Apparel flat lay' },
-  { handle: '@cafe_emi',     v: 'coffee' as PhVariant, size: 'sm', img: UNSPLASH.igLatte,    alt: 'Café lifestyle' },
-  { handle: '@thriftbyleah', v: 'olive'  as PhVariant, size: 'w',  img: UNSPLASH.igHaul,     alt: 'Vintage clothing haul' },
-  { handle: '@gurlies',      v: 'cocoa'  as PhVariant, size: 'sm', img: UNSPLASH.igRail,     alt: 'Behind the clothing rail' },
-  { handle: '@sunday.sage',  v: 'blush'  as PhVariant, size: 'sm', img: UNSPLASH.igDetails,  alt: 'Outfit details' },
-  { handle: '@kira.takes',   v: 'nude'   as PhVariant, size: 'w',  img: UNSPLASH.igMorning,  alt: 'Morning fashion look' },
-  { handle: '@hello.juno',   v: 'coffee' as PhVariant, size: 'sm', img: UNSPLASH.igEspresso,   alt: 'Café moment' },
-  { handle: '@modaa.mira',   v: 'blush'  as PhVariant, size: 'sm', img: UNSPLASH.igStyling,  alt: 'Thrift styling' },
-];
-
 export const TESTIMONIALS = [
   { quote: <>The cardigan I bought has compliments stitched into the seams. The café upstairs is my second living room. — <span className="script">obsessed.</span></>,
     by: 'Maeve · Porto',    meta: 'Verified — 4 orders', v: 'blush' as PhVariant, avatar: UNSPLASH.avatarBlush,  alt: 'Maeve' },
@@ -203,7 +182,7 @@ export function Header({ cartCount, wishCount, onCart, onWish }: {
     window.addEventListener('scroll', on, { passive: true });
     return () => window.removeEventListener('scroll', on);
   }, []);
-  const navItems = ['Shop', 'New Arrivals', 'Vintage', 'Café', 'Journal', 'About'];
+  const navItems = ['Shop', 'Menu', 'Blog', 'New Arrivals', 'Vintage', 'Café', 'Journal', 'About'];
   return (
     <>
       <div className="hdr__marquee">
@@ -223,7 +202,7 @@ export function Header({ cartCount, wishCount, onCart, onWish }: {
       <header className="hdr" data-scrolled={scrolled ? '1' : '0'}>
         <div className="container hdr__bar">
           <a href="#" className="hdr__logo" aria-label="Hey Gurlies! home">
-            <i>hey</i><b>gurlies!</b>
+            <img className="hdr__logo-img" src="/heygurlies_logo.png" alt="Hey Gurlies!" />
           </a>
           <nav className="hdr__nav">
             {navItems.map(n => <a key={n} href={`#${n.toLowerCase().replace(/\s/g, '-')}`}>{n}</a>)}
@@ -290,6 +269,75 @@ export function ProductCard({ p, wished, onWish, onAdd }: {
         </div>
       </div>
     </article>
+  );
+}
+
+/* ── Blog carousel ──────────────────────────────────────────────────── */
+const BLOG_GAP = 16;
+
+export const BLOG_PHOTOS = Array.from({ length: 15 }, (_, i) => {
+  const n = String(i + 1).padStart(2, '0');
+  return {
+    id: `pic${n}`,
+    src: `/blogs/pic${n}.jpg`,
+    alt: `Hey Gurlies café and closet moments — photo ${i + 1}`,
+  };
+});
+
+export function BlogCarousel() {
+  const [idx, setIdx] = useState(0);
+  const [perView, setPerView] = useState(3);
+  useEffect(() => {
+    const recalc = () => {
+      const w = window.innerWidth;
+      setPerView(w < 760 ? 1 : w < 1100 ? 2 : 3);
+    };
+    recalc();
+    window.addEventListener('resize', recalc);
+    return () => window.removeEventListener('resize', recalc);
+  }, []);
+  const max = Math.max(0, BLOG_PHOTOS.length - perView);
+  const clamp = (n: number) => Math.max(0, Math.min(max, n));
+  useEffect(() => { setIdx(i => Math.min(i, max)); }, [max]);
+  const slideBasis = `calc((100% - ${(perView - 1) * BLOG_GAP}px) / ${perView})`;
+  const offset = `calc(${-idx} * (${slideBasis} + ${BLOG_GAP}px))`;
+
+  return (
+    <section className="sec blog" id="blog">
+      <div className="container">
+        <Reveal className="sec__head">
+          <h2 className="sec__title">
+            Life at<br /><span className="script">Hey Gurlies.</span>
+          </h2>
+          <div className="sec__intro">
+            <span className="eyebrow">Shop · Sip · Stay awhile</span>
+            Real moments from the rail, the counter, and the group chats that spill into Sunday.
+          </div>
+        </Reveal>
+        <Reveal className="blog__viewport" delay={80}>
+          <div className="blog__track" style={{ transform: `translateX(${offset})` }}>
+            {BLOG_PHOTOS.map((photo) => (
+              <figure key={photo.id} className="blog__slide" style={{ flexBasis: slideBasis }}>
+                <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+              </figure>
+            ))}
+          </div>
+        </Reveal>
+        <div className="blog__nav">
+          <span className="blog__count">{idx + 1} / {max + 1}</span>
+          <div className="blog__nav-btns">
+            <button className="blog__nav-btn" disabled={idx === 0}
+                    onClick={() => setIdx(clamp(idx - 1))} aria-label="Previous photos">
+              <Icon name="chevL" />
+            </button>
+            <button className="blog__nav-btn" disabled={idx === max}
+                    onClick={() => setIdx(clamp(idx + 1))} aria-label="Next photos">
+              <Icon name="chevR" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
