@@ -75,6 +75,17 @@ export const UNSPLASH = {
   emptyBag:      U('photo-1445205170230-053b83016050', 400),
 } as const;
 
+/* ── Café photos (local) ────────────────────────────────────────────── */
+export const CAFE_IMAGES = {
+  hero:       '/blogs/pic01.jpg',
+  coffee:     '/blogs/pic04.jpg',
+  refreshers: '/blogs/pic03.jpg',
+  sweets:     '/blogs/pic08.jpg',
+  interior:   '/blogs/pic09.jpg',
+  counter:    '/blogs/pic06.jpg',
+  latte:      '/blogs/pic05.jpg',
+} as const;
+
 /* ── Placeholder / Unsplash image ───────────────────────────────────── */
 type PhVariant = 'nude' | 'blush' | 'cocoa' | 'coffee' | 'olive';
 
@@ -117,14 +128,76 @@ export const Reveal = ({ children, delay = 0, as: Tag = 'div' as ElementType, cl
 };
 
 /* ── Data ───────────────────────────────────────────────────────────── */
-export const CATEGORIES = [
-  { id: 'tops',    name: 'Tops',          count: '48 pieces',   size: 'lg', variant: 'blush'  as PhVariant, tag: 'Most loved', angle: 130, img: UNSPLASH.catTops,    alt: 'Curated tops on clothing rack' },
-  { id: 'dresses', name: 'Dresses',       count: '32 pieces',   size: 'md', variant: 'nude'   as PhVariant, angle: 110, img: UNSPLASH.catDresses, alt: 'Flowing dress editorial' },
-  { id: 'vintage', name: 'Vintage Finds', count: 'Drop weekly', size: 'md', variant: 'cocoa'  as PhVariant, tag: 'One of one', angle: 145, img: UNSPLASH.catVintage, alt: 'Vintage thrifted apparel' },
-  { id: 'cafe',    name: 'Café Corner',   count: 'Cups & tote', size: 'sm', variant: 'coffee' as PhVariant, angle: 100, img: UNSPLASH.catCafe,    alt: 'Apparel and lifestyle accessories' },
-  { id: 'new',     name: 'New Arrivals',  count: 'Just in',     size: 'sm', variant: 'olive'  as PhVariant, angle: 120, img: UNSPLASH.catNew,     alt: 'New arrival fashion look' },
-  { id: 'best',    name: 'Best Sellers',  count: 'Re-stocked',  size: 'sm', variant: 'blush'  as PhVariant, angle: 150, img: UNSPLASH.catBest,    alt: 'Best-selling outfit editorial' },
+type CategoryItem = {
+  id: string; name: string; count: string; size: 'lg' | 'md' | 'sm';
+  variant: PhVariant; img: string; alt: string; tag?: string;
+};
+
+export type { CategoryItem };
+
+export const BOUTIQUE_CATEGORIES: CategoryItem[] = [
+  { id: 'womens',      name: "Women's Clothing", count: 'Tops, dresses & more', size: 'lg', variant: 'blush', tag: 'Most loved', img: UNSPLASH.catTops,    alt: 'Women\'s clothing on the rail' },
+  { id: 'menswear',    name: "Men's Clothing",   count: 'Curated picks',        size: 'md', variant: 'olive', img: UNSPLASH.catNew,     alt: 'Men\'s clothing' },
+  { id: 'accessories', name: 'Accessories',      count: 'Bags & more',          size: 'md', variant: 'cocoa', img: UNSPLASH.catVintage, alt: 'Fashion accessories' },
 ];
+
+export const CAFE_CATEGORIES: CategoryItem[] = [
+  { id: 'coffee',     name: '☕ Coffee',       count: 'Hot & iced pours',   size: 'md', variant: 'coffee', img: CAFE_IMAGES.coffee,     alt: 'Coffee at Hey Gurlies' },
+  { id: 'refreshers', name: '🥤 Refreshers',   count: 'Fruit sodas & more', size: 'md', variant: 'nude',   img: CAFE_IMAGES.refreshers, alt: 'Refreshing drinks' },
+  { id: 'sweets',     name: '🍰 Sweet Treats', count: 'Bites & pastries',   size: 'md', variant: 'blush',  img: CAFE_IMAGES.sweets,     alt: 'Sweet treats at the café' },
+];
+
+export const CAFE_FEATURED = [
+  {
+    id: 'coffee',
+    emoji: '☕',
+    title: 'Coffee',
+    desc: 'Freshly brewed favorites made to fuel your day.',
+    img: CAFE_IMAGES.coffee,
+    alt: 'Coffee at Hey Gurlies',
+  },
+  {
+    id: 'refreshers',
+    emoji: '🥤',
+    title: 'Refreshers',
+    desc: 'Light, refreshing drinks perfect for warm afternoons.',
+    img: CAFE_IMAGES.refreshers,
+    alt: 'Refreshing drinks',
+  },
+  {
+    id: 'sweets',
+    emoji: '🍰',
+    title: 'Sweet Treats',
+    desc: 'Freshly prepared desserts and café favorites.',
+    img: CAFE_IMAGES.sweets,
+    alt: 'Sweet treats at the café',
+  },
+] as const;
+
+export const CAFE_GALLERY = [
+  { src: CAFE_IMAGES.latte,      alt: 'Coffee preparation at Hey Gurlies' },
+  { src: CAFE_IMAGES.coffee,     alt: 'Coffee cups ready to serve' },
+  { src: CAFE_IMAGES.sweets,     alt: 'Sweet treats display' },
+  { src: '/blogs/pic01.jpg',     alt: 'Customers enjoying the café' },
+  { src: CAFE_IMAGES.interior,   alt: 'Interior seating area' },
+  { src: CAFE_IMAGES.counter,    alt: 'Café counter area' },
+] as const;
+
+export const CAFE_PROMOTION = {
+  emoji: '👨☕',
+  title: "Father's Day Special",
+  lines: [
+    'Buy Any 2 Drinks',
+    'Dad Gets a FREE Coffee or Refresher',
+  ],
+  date: 'June 21 Only',
+} as const;
+
+/** @deprecated use CAFE_CATEGORIES */
+export const CAFE_FAVORITES = CAFE_CATEGORIES;
+
+/** @deprecated use BOUTIQUE_CATEGORIES */
+export const CATEGORIES = [...BOUTIQUE_CATEGORIES, ...CAFE_CATEGORIES];
 
 export interface Product {
   id: string; name: string; brand: string; price: number; was: number | null;
@@ -132,24 +205,77 @@ export interface Product {
   img: string; img2: string; imgAlt: string; imgAlt2: string;
 }
 
-export const PRODUCTS: Product[] = [
-  { id: 'p1', name: 'Strawberry Milk Cardigan', brand: 'Reclaimed · Y2K', price: 48, was: null, tag: 'ONE OF ONE', filter: 'tops',    v: 'blush',  v2: 'nude',  swatches: ['#e8b6b6','#d9c6b6'], img: UNSPLASH.prodCardigan, img2: UNSPLASH.prodAlt1, imgAlt: 'Blush knit cardigan',       imgAlt2: 'Soft knit detail' },
-  { id: 'p2', name: 'Latte Slip Dress',         brand: 'Vintage · 90s',   price: 62, was: 84,   tag: 'MARKDOWN',   filter: 'dresses', v: 'nude',   v2: 'cocoa', swatches: ['#d9c6b6','#776355'], img: UNSPLASH.prodDress,    img2: UNSPLASH.prodAlt2, imgAlt: 'Nude slip dress',           imgAlt2: 'Dress on hanger' },
-  { id: 'p3', name: 'Mocha Wrap Knit',          brand: 'Thrifted · Wool', price: 54, was: null, tag: 'NEW',        filter: 'tops',    v: 'coffee', v2: 'olive', swatches: ['#876a55','#a4a685'], img: UNSPLASH.prodKnit,     img2: UNSPLASH.prodAlt3, imgAlt: 'Mocha wrap knit top',       imgAlt2: 'Minimal knit styling' },
-  { id: 'p4', name: 'Espresso Pleated Skirt',   brand: 'Vintage · Silk',  price: 38, was: null, tag: null,         filter: 'vintage', v: 'cocoa',  v2: 'nude',  swatches: ['#3a2a20','#d9c6b6'], img: UNSPLASH.prodSkirt,    img2: UNSPLASH.prodAlt4, imgAlt: 'Dark pleated skirt',        imgAlt2: 'Vintage skirt flat lay' },
-  { id: 'p5', name: 'Cream Puff Cami',          brand: 'Y2K · Reclaimed', price: 28, was: 44,   tag: 'MARKDOWN',   filter: 'tops',    v: 'nude',   v2: 'blush', swatches: ['#e8d9c6','#e8b6b6'], img: UNSPLASH.prodCami,     img2: UNSPLASH.prodAlt5, imgAlt: 'Cream cami top',            imgAlt2: 'Editorial outfit' },
-  { id: 'p6', name: 'Matcha Linen Trouser',     brand: 'Vintage · 70s',   price: 58, was: null, tag: 'ONE OF ONE', filter: 'vintage', v: 'olive',  v2: 'nude',  swatches: ['#a4a685','#d9c6b6'], img: UNSPLASH.prodTrouser,  img2: UNSPLASH.prodAlt6, imgAlt: 'Olive linen trousers',      imgAlt2: 'Vintage trouser styling' },
-  { id: 'p7', name: 'Honey Bow Blouse',         brand: 'Reclaimed',       price: 42, was: null, tag: 'NEW',        filter: 'tops',    v: 'blush',  v2: 'cocoa', swatches: ['#e8b6b6','#3a2a20'], img: UNSPLASH.prodBlouse,   img2: UNSPLASH.prodAlt7, imgAlt: 'Honey-toned blouse',        imgAlt2: 'Fashion portrait' },
-  { id: 'p8', name: 'Caramel Mini Tee',         brand: 'Café x Hey',      price: 24, was: null, tag: null,         filter: 'cafe',    v: 'coffee', v2: 'blush', swatches: ['#876a55','#e8b6b6'], img: UNSPLASH.prodTee,      img2: UNSPLASH.prodAlt8, imgAlt: 'Caramel graphic tee',       imgAlt2: 'Casual tee styling' },
+export const BOUTIQUE_PRODUCTS: Product[] = [
+  { id: 'p1', name: 'Strawberry Milk Cardigan', brand: 'Reclaimed · Y2K', price: 48, was: null, tag: 'ONE OF ONE', filter: 'womens',    v: 'blush',  v2: 'nude',  swatches: ['#e8b6b6','#d9c6b6'], img: UNSPLASH.prodCardigan, img2: UNSPLASH.prodAlt1, imgAlt: 'Blush knit cardigan',  imgAlt2: 'Soft knit detail' },
+  { id: 'p2', name: 'Latte Slip Dress',         brand: 'Vintage · 90s',   price: 62, was: 84,   tag: 'MARKDOWN',   filter: 'womens',    v: 'nude',   v2: 'cocoa', swatches: ['#d9c6b6','#776355'], img: UNSPLASH.prodDress,    img2: UNSPLASH.prodAlt2, imgAlt: 'Nude slip dress',      imgAlt2: 'Dress on hanger' },
+  { id: 'p3', name: 'Mocha Wrap Knit',          brand: 'Thrifted · Wool', price: 54, was: null, tag: 'NEW',        filter: 'menswear',  v: 'coffee', v2: 'olive', swatches: ['#876a55','#a4a685'], img: UNSPLASH.prodKnit,     img2: UNSPLASH.prodAlt3, imgAlt: 'Mocha wrap knit top',  imgAlt2: 'Minimal knit styling' },
+  { id: 'p4', name: 'Espresso Pleated Skirt',   brand: 'Vintage · Silk',  price: 38, was: null, tag: null,         filter: 'womens',    v: 'cocoa',  v2: 'nude',  swatches: ['#3a2a20','#d9c6b6'], img: UNSPLASH.prodSkirt,    img2: UNSPLASH.prodAlt4, imgAlt: 'Dark pleated skirt',   imgAlt2: 'Vintage skirt flat lay' },
+  { id: 'p5', name: 'Cream Puff Cami',          brand: 'Y2K · Reclaimed', price: 28, was: 44,   tag: 'MARKDOWN',   filter: 'womens',    v: 'nude',   v2: 'blush', swatches: ['#e8d9c6','#e8b6b6'], img: UNSPLASH.prodCami,     img2: UNSPLASH.prodAlt5, imgAlt: 'Cream cami top',       imgAlt2: 'Editorial outfit' },
+  { id: 'p6', name: 'Matcha Linen Trouser',     brand: 'Vintage · 70s',   price: 58, was: null, tag: 'ONE OF ONE', filter: 'womens',    v: 'olive',  v2: 'nude',  swatches: ['#a4a685','#d9c6b6'], img: UNSPLASH.prodTrouser,  img2: UNSPLASH.prodAlt6, imgAlt: 'Olive linen trousers', imgAlt2: 'Vintage trouser styling' },
+  { id: 'p7', name: 'Honey Bow Blouse',         brand: 'Reclaimed',       price: 42, was: null, tag: 'NEW',        filter: 'womens',    v: 'blush',  v2: 'cocoa', swatches: ['#e8b6b6','#3a2a20'], img: UNSPLASH.prodBlouse,   img2: UNSPLASH.prodAlt7, imgAlt: 'Honey-toned blouse',   imgAlt2: 'Fashion portrait' },
+  { id: 'p8', name: 'Woven Tote Bag',           brand: 'Hey Gurlies',     price: 32, was: null, tag: 'NEW',        filter: 'accessories', v: 'nude', v2: 'blush', swatches: ['#d9c6b6','#e8b6b6'], img: UNSPLASH.catVintage,   img2: UNSPLASH.prodAlt8, imgAlt: 'Woven tote bag',       imgAlt2: 'Accessory flat lay' },
 ];
 
-export const FILTERS = [
-  { id: 'all',     label: 'All Pieces' },
-  { id: 'tops',    label: 'Tops' },
-  { id: 'dresses', label: 'Dresses' },
-  { id: 'vintage', label: 'Vintage' },
-  { id: 'cafe',    label: 'Café Corner' },
+/** Boutique-only — café items live on the Café page / menu */
+export const PRODUCTS = BOUTIQUE_PRODUCTS;
+
+/* ── Boutique page data ─────────────────────────────────────────────── */
+export const HOME_IMAGES = {
+  hero: '/home/home01.png',
+} as const;
+
+export const BOUTIQUE_COLLECTIONS = [
+  {
+    id: 'womens',
+    emoji: '👗',
+    title: "Women's Clothing",
+    desc: 'Trendy, stylish, and versatile pieces curated for every occasion.',
+    categories: ['Tops', 'Dresses', 'Bottoms', 'Outerwear', 'Accessories'],
+    img: UNSPLASH.catTops,
+    alt: "Women's clothing collection",
+  },
+  {
+    id: 'menswear',
+    emoji: '👔',
+    title: "Men's Clothing",
+    desc: 'Classic essentials and modern styles designed for comfort and confidence.',
+    categories: ['Shirts', 'Polos', 'T-Shirts', 'Jackets', 'Pants'],
+    img: UNSPLASH.catNew,
+    alt: "Men's clothing collection",
+  },
+  {
+    id: 'accessories',
+    emoji: '✨',
+    title: 'Accessories',
+    desc: 'The finishing touches that complete every outfit.',
+    categories: ['Bags', 'Jewelry', 'Hair Accessories', 'Caps', 'Fashion Accessories'],
+    img: UNSPLASH.catVintage,
+    alt: 'Fashion accessories',
+  },
+] as const;
+
+export const BOUTIQUE_WHY_SHOP = [
+  { title: 'Carefully Curated',    body: 'Every piece is selected with quality, style, and affordability in mind.' },
+  { title: 'Unique Finds',         body: "Discover pieces you won't find everywhere." },
+  { title: 'Affordable Fashion',   body: 'Look your best without breaking the budget.' },
+  { title: 'Community-Focused',    body: "More than a boutique, we're a place where people connect and feel welcome." },
+] as const;
+
+export const BOUTIQUE_CUSTOMER_PHOTOS = [
+  { src: '/blogs/pic13.jpg', alt: 'Customer styling at Hey Gurlies' },
+  { src: '/blogs/pic12.jpg', alt: 'Boutique shopping moment' },
+  { src: '/blogs/pic07.jpg', alt: 'Fashion accessories display' },
+  { src: '/blogs/pic14.jpg', alt: 'Happy customer at Hey Gurlies' },
+] as const;
+
+export const BOUTIQUE_FILTERS = [
+  { id: 'all',         label: 'All Pieces' },
+  { id: 'womens',      label: "Women's Clothing" },
+  { id: 'menswear',    label: "Men's Clothing" },
+  { id: 'accessories', label: 'Accessories' },
 ];
+
+export const FILTERS = BOUTIQUE_FILTERS;
 
 export const WHY = [
   { num: '01', title: 'Hand-curated',      body: 'Every piece is sourced and styled by the Gurlies team — no bulk lots, no algorithms.' },
@@ -174,11 +300,11 @@ export const TESTIMONIALS = [
 
 /* ── Nav ────────────────────────────────────────────────────────────── */
 export const NAV_ITEMS = [
-  { label: 'Shop',         to: '/',              hash: 'shop' },
-  { label: 'Café',         to: '/cafe' },
-  { label: 'New Arrivals', to: '/',              hash: 'new-arrivals' },
-  { label: 'Journal',      to: '/',              hash: 'journal' },
-  { label: 'About',        to: '/',              hash: 'about' },
+  { label: 'Home',     to: '/' },
+  { label: 'Boutique', to: '/boutique' },
+  { label: 'Café',     to: '/cafe' },
+  { label: 'About',    to: '/', hash: 'about' },
+  { label: 'Contact',  to: '/', hash: 'contact' },
 ] as const;
 
 /* ── Header ─────────────────────────────────────────────────────────── */
@@ -198,24 +324,20 @@ export function Header() {
       : item.to;
   const isActive = (item: typeof NAV_ITEMS[number]) => {
     if (item.to === '/cafe') return location.pathname === '/cafe';
+    if (item.to === '/boutique') return location.pathname === '/boutique';
+    if (item.label === 'Home') return location.pathname === '/' && !location.hash;
     if (location.pathname !== '/') return false;
-    if (!('hash' in item) || !item.hash) return location.hash === '' || location.hash === '#shop';
-    return location.hash === `#${item.hash}`;
+    if ('hash' in item && item.hash) return location.hash === `#${item.hash}`;
+    return false;
   };
+  const marqueeText = 'Opens Monday to Sunday, 8:00 AM to 8:00 PM | Decolores Village, Poblacion, Pangantucan, Bukidnon';
   return (
     <>
       <div className="hdr__marquee">
         <div className="hdr__marquee-track">
-          {Array.from({ length: 2 }).flatMap((_, k) => [
-            <span key={`a${k}`}>✦ Free shipping over €80</span>,
-            <span key={`b${k}`}><em>—</em></span>,
-            <span key={`c${k}`}>New thrift drop every Sunday 10am</span>,
-            <span key={`d${k}`}><em>—</em></span>,
-            <span key={`e${k}`}>Café open in Lisbon · 8am–7pm</span>,
-            <span key={`f${k}`}><em>—</em></span>,
-            <span key={`g${k}`}>Trade-in night — first Thursday of the month</span>,
-            <span key={`h${k}`}><em>—</em></span>,
-          ])}
+          {Array.from({ length: 4 }).map((_, k) => (
+            <span key={k}>{marqueeText}<em> — </em></span>
+          ))}
         </div>
       </div>
       <header className="hdr" data-scrolled={scrolled ? '1' : '0'}>
@@ -284,28 +406,56 @@ export function ProductCard({ p, wished, onWish, onAdd }: {
 }
 
 /* ── Café menu ──────────────────────────────────────────────────────── */
+export const CAFE_MENUS = [
+  {
+    id: 'coffee',
+    label: 'Coffee',
+    src: '/menu.png',
+    alt: 'Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP',
+  },
+  {
+    id: 'refreshers',
+    label: 'House Refreshers',
+    src: '/cafe/Signature Refreshers.png',
+    alt: 'Hey Gurlies house refreshers menu — sparkling sodas, fresh blends, and add-ons',
+  },
+  {
+    id: 'sweets',
+    label: 'Sweet Treats',
+    src: '/cafe/Sweet treats.png',
+    alt: 'Hey Gurlies sweet treats menu — cakes, waffles, brownies, and cookies',
+  },
+] as const;
+
 export function CafeMenu() {
   return (
     <section className="sec menu" id="menu">
       <div className="container">
         <Reveal className="sec__head">
           <h2 className="sec__title">
-            Coffee<br /><i>menu.</i> <span className="script">Sip in style.</span>
+            Our<br /><span className="script">Menus.</span>
           </h2>
           <div className="sec__intro">
-            <span className="eyebrow">Hey Gurlies! · The café upstairs</span>
-            Hot pours, iced classics, and a few non-coffee sodas — all priced for lingering.
+            <span className="eyebrow">Hey Gurlies! · Sip, style &amp; stay awhile</span>
+            Coffee, refreshers, and sweet treats — all priced for lingering.
           </div>
         </Reveal>
-        <Reveal className="menu__frame" delay={80}>
-          <img
-            className="menu__img"
-            src="/menu.png"
-            alt="Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP"
-            loading="lazy"
-            decoding="async"
-          />
-        </Reveal>
+        <div className="menu__grid">
+          {CAFE_MENUS.map((item, i) => (
+            <Reveal key={item.id} className="menu__item" delay={i * 60} id={`menu-${item.id}`}>
+              <span className="menu__label">{item.label}</span>
+              <div className="menu__frame">
+                <img
+                  className="menu__img"
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

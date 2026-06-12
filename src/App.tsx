@@ -4,10 +4,12 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import {
   Icon, Ph, Reveal,
   Header, ProductCard, Testimonials, CartDrawer,
-  CATEGORIES, PRODUCTS, FILTERS, WHY, UNSPLASH,
+  BOUTIQUE_CATEGORIES, BOUTIQUE_FILTERS, BOUTIQUE_PRODUCTS,
+  CAFE_CATEGORIES, WHY, UNSPLASH, CAFE_IMAGES,
 } from './components';
-import type { Product, CartItem } from './components';
+import type { Product, CartItem, CategoryItem } from './components';
 import Cafe from './pages/Cafe';
+import Boutique from './pages/Boutique';
 import { ScrollToTop } from './ScrollToTop';
 import {
   useTweaks, TweaksPanel, TweakSection, TweakText, TweakRadio, TweakToggle, TweakColor,
@@ -41,134 +43,181 @@ const PALETTES: Record<string, string[]> = {
 };
 
 const TWEAK_DEFAULTS = {
-  headline:       'Curated Fits & Cozy Sips',
+  headline:       'Fashion, Coffee, & Cozy Moments.',
   headlineScript: 'stay awhile',
-  subheadline:    'Thrifted fashion finds with café energy. Made in Lisbon, sourced from your favourite aunties.',
+  subheadline:    "Women's Wear • Men's Wear • Café",
   palette:        ['#e8b6b6', '#3a2a20', '#f5ede0'] as string[],
   heroLayout:     'editorial',
   showBlobs:      true,
-  scriptAccents:  true,
+  scriptAccents:  false,
 };
 
 /* ── Hero ───────────────────────────────────────────────────────────── */
 function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
   const heroBg = t.heroLayout === 'editorial'
     ? <>
-        <div className="hero__bg-img"><Ph variant="blush"  src={UNSPLASH.heroPortrait}  alt="Editorial fashion portrait" style={{ position: 'absolute', inset: 0 }} /></div>
+        <div className="hero__bg-img"><Ph variant="blush"  src="/home/home01.png" alt="Hey Gurlies boutique fashion" style={{ position: 'absolute', inset: 0 }} /></div>
         <div className="hero__bg-img"><Ph variant="coffee" src={UNSPLASH.heroFlatLay}   alt="Vintage apparel flat lay"   style={{ position: 'absolute', inset: 0 }} /></div>
         <div className="hero__bg-img"><Ph variant="nude"   src={UNSPLASH.heroBoutique}  alt="Curated clothing boutique"  style={{ position: 'absolute', inset: 0 }} /></div>
       </>
     : <div className="hero__bg-img" style={{ gridColumn: '1 / -1', gridRow: '1 / -1' }}>
         <Ph variant="cocoa" src={UNSPLASH.heroFull} alt="Full-bleed fashion editorial" style={{ position: 'absolute', inset: 0 }} />
       </div>;
-  const words = t.headline.split(' ');
   return (
     <section className="hero" id="shop">
       <div className="hero__bg">{heroBg}</div>
       <div className="container hero__inner">
         <div className="hero__copy">
-          <div className="hero__eyebrow">Hey Gurlies! · est. 2024 · Lisbon</div>
+          <div className="hero__eyebrow">Hey Gurlies! · Decolores Village, Pangantucan</div>
           <h1>
-            {words.slice(0, -1).join(' ')}{' '}
-            <i>{words.slice(-1)}</i>
-            {t.scriptAccents && (
-              <><br /><span className="script">— {t.headlineScript}.</span></>
-            )}
+            Fashion, Coffee,<br />
+            <span className="script">&amp; Cozy Moments.</span>
           </h1>
           <p className="hero__sub">{t.subheadline}</p>
           <div className="hero__ctas">
-            <button className="btn btn--primary">
-              Shop Collection <Icon name="arrow" size={16} sw={1.8} />
-            </button>
+            <Link className="btn btn--primary" to="/boutique">
+              Shop the Boutique <Icon name="arrow" size={16} sw={1.8} />
+            </Link>
             <Link className="btn btn--ghost" to="/cafe">Visit the Café</Link>
           </div>
         </div>
-        <div className="hero__meta">
+        {/* <div className="hero__meta">
           <div className="hero__meta-card">
-            <span className="script">Sunday Drop</span>
-            <b>Vintage Knitwear</b>
-            <p>32 one-of-one pieces. Live this Sunday at 10am — set a quiet alarm.</p>
+            <span className="script">The boutique</span>
+            <b>Women's &amp; Men's Wear</b>
+            <p>Curated styles for women and men. Handpicked pieces you'll love to wear again and again.</p>
           </div>
           <div className="hero__meta-card" style={{ marginTop: -6 }}>
-            <span className="script">In the café</span>
-            <b>Oat Matcha · €4.20</b>
-            <p>Made with single-origin matcha and a little too much patience.</p>
+            <span className="script">The café</span>
+            <b>Coffee &amp; Sweet Treats</b>
+            <p>Coffee, refreshers, and sweet treats. A cozy place to slow down, catch up, and stay awhile.</p>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="hero__scroll">scroll · keep going</div>
     </section>
   );
 }
 
-/* ── Categories ─────────────────────────────────────────────────────── */
-function Categories() {
+/* ── Category card helper ───────────────────────────────────────────── */
+function CategoryCard({ c, to, delay }: {
+  c: CategoryItem; to: string; delay: number;
+}) {
+  const inner = (
+    <>
+      <div className="cat__img">
+        <Ph variant={c.variant} src={c.img} alt={c.alt}
+            style={{ position: 'absolute', inset: 0 }} />
+      </div>
+      {c.tag && <span className="cat__tag">{c.tag}</span>}
+      <div className="cat__body">
+        <div>
+          <div className="cat__name">{c.name}</div>
+          <div className="cat__count">{c.count}</div>
+        </div>
+        <span className="cat__arr"><Icon name="arrow" size={16} sw={1.8} /></span>
+      </div>
+    </>
+  );
+  const cls = `cat cat--${c.size}`;
+  const style = { animationDelay: `${delay}ms` } as CSSProperties;
+  return to.startsWith('/')
+    ? <Link to={to} className={cls} style={style}>{inner}</Link>
+    : <a href={to} className={cls} style={style}>{inner}</a>;
+}
+
+/* ── Boutique + Café categories ─────────────────────────────────────── */
+function ShopStructure() {
   return (
-    <section className="sec" id="new-arrivals">
+    <section className="sec" id="boutique">
       <div className="container">
-        <Reveal className="sec__head">
-          <h2 className="sec__title">
-            Shop the<br />
-            <i>closet, the café,</i><br />
-            <span className="script">&amp; everything in between.</span>
-          </h2>
-          <div className="sec__intro">
-            <span className="eyebrow">Six aisles · One vibe</span>
-            From dresses your aunt almost kept to ceramic mugs we glaze ourselves. Browse by feeling.
+        <Reveal className="dual-cards">
+          <Link to="/boutique" className="dual-card dual-card--boutique">
+            <span className="dual-card__eyebrow">Shop the boutique</span>
+            <h3 className="dual-card__title">Women's &amp; Men's Clothing</h3>
+            <ul className="dual-card__list">
+              <li>Women's Clothing</li>
+              <li>Men's Clothing</li>
+              <li>Accessories</li>
+            </ul>
+            <span className="dual-card__cta">Shop the Boutique <Icon name="arrow" size={14} sw={1.8} /></span>
+          </Link>
+          <Link to="/cafe" className="dual-card dual-card--cafe">
+            <span className="dual-card__eyebrow">Visit the café</span>
+            <h3 className="dual-card__title">Coffee, Refreshers &amp; Treats</h3>
+            <ul className="dual-card__list">
+              <li>Coffee</li>
+              <li>Refreshers</li>
+              <li>Sweet Treats</li>
+            </ul>
+            <span className="dual-card__cta">Visit the Café <Icon name="arrow" size={14} sw={1.8} /></span>
+          </Link>
+        </Reveal>
+
+        <Reveal className="dept" delay={60}>
+          <div className="dept__head">
+            <span className="dept__brand">Hey Gurlies</span>
+            <h2 className="dept__title">Boutique</h2>
+            <p className="dept__sub">Curated styles for women and men. Handpicked pieces you'll love to wear again and again.</p>
+          </div>
+          <div className="cats cats--3">
+            {BOUTIQUE_CATEGORIES.map((c, i) => (
+              <CategoryCard key={c.id} c={c} to="/boutique#new-arrivals" delay={i * 60} />
+            ))}
           </div>
         </Reveal>
-        <Reveal className="cats">
-          {CATEGORIES.map((c, i) => (
-            <a key={c.id} href={`#${c.id}`}
-               className={`cat cat--${c.size}`}
-               style={{ animationDelay: `${i * 60}ms` } as CSSProperties}>
-              <div className="cat__img">
-                <Ph variant={c.variant} src={c.img} alt={c.alt}
-                    style={{ position: 'absolute', inset: 0 }} />
-              </div>
-              {c.tag && <span className="cat__tag">{c.tag}</span>}
-              <div className="cat__body">
-                <div>
-                  <div className="cat__name">{c.name}</div>
-                  <div className="cat__count">{c.count}</div>
-                </div>
-                <span className="cat__arr"><Icon name="arrow" size={16} sw={1.8} /></span>
-              </div>
-            </a>
-          ))}
+
+        <Reveal className="dept dept--cafe" delay={100} id="cafe-preview">
+          <div className="dept__head">
+            <span className="dept__brand">Hey Gurlies</span>
+            <h2 className="dept__title">Café</h2>
+            <p className="dept__sub">Coffee, refreshers, and sweet treats. A cozy place to slow down, catch up, and stay awhile.</p>
+          </div>
+          <div className="cats cats--3">
+            {CAFE_CATEGORIES.map((c, i) => (
+              <CategoryCard key={c.id} c={c} to="/cafe#menu" delay={i * 60} />
+            ))}
+          </div>
+          <div className="dept__cta">
+            <Link className="btn btn--primary" to="/cafe#menu">
+              View Menu <Icon name="arrow" size={16} sw={1.8} />
+            </Link>
+          </div>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/* ── New Arrivals ───────────────────────────────────────────────────── */
-function NewArrivals({ wishlist, onWish, onAdd }: {
+/* ── Boutique — New Arrivals ──────────────────────────────────────── */
+function BoutiqueArrivals({ wishlist, onWish, onAdd }: {
   wishlist: Set<string>; onWish: (id: string) => void; onAdd: (p: Product) => void;
 }) {
   const [active, setActive] = useState('all');
-  const items = active === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.filter === active);
+  const items = active === 'all'
+    ? BOUTIQUE_PRODUCTS
+    : BOUTIQUE_PRODUCTS.filter(p => p.filter === active);
   return (
-    <section className="sec" style={{ paddingTop: 40 }}>
+    <section className="sec" id="new-arrivals" style={{ paddingTop: 40 }}>
       <div className="container">
         <Reveal className="sec__head">
           <h2 className="sec__title">
-            New in this<br /><i>week</i> <span className="script">— go on, peek.</span>
+            Boutique ·<br /><i>new this week.</i>
           </h2>
           <div className="sec__intro">
-            <span className="eyebrow">8 fresh pieces · Hover for the alt</span>
-            Restock arrives Friday at 6pm. If it's not on the rail, it's in someone's tote.
+            <span className="eyebrow">Clothing &amp; accessories only</span>
+            Curated styles for women and men — café drinks are on the menu, not in the rail.
           </div>
         </Reveal>
         <Reveal>
-          <div className="filters">
-            {FILTERS.map(f => (
+          <div className="filters" id="boutique-shop">
+            {BOUTIQUE_FILTERS.map(f => (
               <button key={f.id} data-active={active === f.id ? '1' : '0'}
                       onClick={() => setActive(f.id)}>{f.label}</button>
             ))}
-            <a className="sec__link" href="#shop" style={{ marginLeft: 'auto', alignSelf: 'center' }}>
-              View all 184 pieces <Icon name="arrow" size={14} sw={1.8} />
-            </a>
+            <Link className="sec__link" to="/boutique" style={{ marginLeft: 'auto', alignSelf: 'center' }}>
+              Browse categories <Icon name="arrow" size={14} sw={1.8} />
+            </Link>
           </div>
         </Reveal>
         <Reveal className="products">
@@ -200,11 +249,11 @@ function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
           <div className="split__caption">
             <span className="num">01</span>
             <div>
-              <h3>The closet, hand-curated.</h3>
-              <p>Every piece is sourced, mended, and styled before it goes on the rail. No bulk lots, no surprises — only the ones we'd wear home.</p>
-              <a className="sec__link" href="#shop" style={{ marginTop: 16, display: 'inline-flex' }}>
-                Explore the closet <Icon name="arrow" size={14} sw={1.8} />
-              </a>
+              <h3>The boutique, hand-curated.</h3>
+              <p>Curated styles for women and men. Handpicked pieces you'll love to wear again and again.</p>
+              <Link className="sec__link" to="/boutique" style={{ marginTop: 16, display: 'inline-flex' }}>
+                Shop the boutique <Icon name="arrow" size={14} sw={1.8} />
+              </Link>
             </div>
           </div>
         </Reveal>
@@ -212,15 +261,15 @@ function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
           <div className="split__caption">
             <span className="num">02</span>
             <div>
-              <h3>The café, upstairs.</h3>
-              <p>Oat matcha, vinyl, and a 6-stool counter where strangers become group-chat regulars. Open daily, 8am to 7pm.</p>
-              <Link className="sec__link" to="/cafe" style={{ marginTop: 16, display: 'inline-flex' }}>
-                Find the café <Icon name="pin" size={14} sw={1.8} />
+              <h3>The café, downstairs.</h3>
+              <p>Coffee, refreshers, and sweet treats. A cozy place to slow down, catch up, and stay awhile. Open daily, 8am to 8pm.</p>
+              <Link className="sec__link" to="/cafe#menu" style={{ marginTop: 16, display: 'inline-flex' }}>
+                View the menu <Icon name="pin" size={14} sw={1.8} />
               </Link>
             </div>
           </div>
-          <Ph variant="coffee" src={UNSPLASH.splitCafe} alt="Cozy café interior" />
-          <Ph variant="nude"   src={UNSPLASH.splitLatte} alt="Latte pour-over moment" style={{ aspectRatio: '5/3' }} />
+          <Ph variant="coffee" src={CAFE_IMAGES.interior} alt="Hey Gurlies café interior" />
+          <Ph variant="nude"   src={CAFE_IMAGES.latte} alt="Coffee at Hey Gurlies" style={{ aspectRatio: '5/3' }} />
         </Reveal>
       </div>
     </section>
@@ -317,12 +366,12 @@ function Newsletter({ showBlobs }: { showBlobs: boolean }) {
 /* ── Footer ─────────────────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="foot">
+    <footer className="foot" id="contact">
       <div className="container">
         <div className="foot__top">
           <div>
             <img className="foot__brand-logo" src="/heygurlies_logo.png" alt="Hey Gurlies!" />
-            <p className="foot__brand-line">Curated thrift fashion + the slowest café in Lisbon. Sip, style &amp; stay awhile.</p>
+            <p className="foot__brand-line">Fashion, coffee &amp; cozy moments in Pangantucan. A boutique and café under one roof — sip, style &amp; stay awhile.</p>
             <div className="foot__social">
               <a aria-label="Instagram"><Icon name="ig" size={16} /></a>
               <a aria-label="TikTok"><Icon name="tiktok" size={16} /></a>
@@ -330,57 +379,41 @@ function Footer() {
             </div>
           </div>
           <div className="foot__col">
-            <h4>Shop</h4>
+            <h4>Boutique</h4>
             <ul>
-              <li><a>New Arrivals</a></li>
-              <li><a>Tops &amp; Knits</a></li>
-              <li><a>Dresses</a></li>
-              <li><a>Vintage Finds</a></li>
-              <li><a>Café Corner</a></li>
-              <li><a>Gift Cards</a></li>
+              <li><Link to="/boutique#womens">Women's Clothing</Link></li>
+              <li><Link to="/boutique#mens">Men's Clothing</Link></li>
+              <li><Link to="/boutique#accessories">Accessories</Link></li>
+              <li><Link to="/boutique#new-arrivals">New Arrivals</Link></li>
             </ul>
           </div>
           <div className="foot__col">
-            <h4>Brand</h4>
+            <h4>Visit the Café</h4>
             <ul>
-              <li><a>Our Story</a></li>
-              <li><a>Sustainability</a></li>
-              <li><a>Journal</a></li>
-              <li><a>Trade-in Night</a></li>
-              <li><a>Press</a></li>
+              <li><Link to="/cafe#menu">Coffee</Link></li>
+              <li><Link to="/cafe#menu">Refreshers</Link></li>
+              <li><Link to="/cafe#menu">Sweet Treats</Link></li>
+              <li><Link to="/cafe#menu" className="foot__menu-link">View Menu →</Link></li>
             </ul>
           </div>
           <div className="foot__col">
-            <h4>Help</h4>
+            <h4>About</h4>
             <ul>
-              <li><a>Shipping</a></li>
-              <li><a>Returns</a></li>
-              <li><a>Size Guide</a></li>
-              <li><a>FAQ</a></li>
-              <li><a>Contact</a></li>
+              <li><a href="#about">Our Story</a></li>
+              <li><Link to="/boutique">The Boutique</Link></li>
+              <li><a href="/cafe">The Café</a></li>
             </ul>
           </div>
           <div className="foot__col">
-            <h4>The Café</h4>
-            <p className="foot__cafe-line">R. da Boavista 84<br />1200-067 Lisbon, PT</p>
+            <h4>Contact</h4>
+            <p className="foot__cafe-line">
+              Decolores Village, Poblacion<br />
+              Pangantucan, Bukidnon
+            </p>
             <dl className="foot__cafe-hours">
-              <dt>Mon–Fri</dt><dd>08:00 — 19:00</dd>
-              <dt>Saturday</dt><dd>09:00 — 20:00</dd>
-              <dt>Sunday</dt><dd>10:00 — 17:00</dd>
+              <dt>Opens</dt><dd>Monday – Sunday</dd>
+              <dt>Hours</dt><dd>8:00 AM – 8:00 PM</dd>
             </dl>
-            <form style={{ marginTop: 18, display: 'flex', gap: 6 }} onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="email for café news"
-                style={{
-                  flex: 1, height: 36, padding: '0 12px',
-                  background: 'transparent',
-                  border: '1px solid color-mix(in oklch, currentColor 25%, transparent)',
-                  borderRadius: 999, color: 'inherit', fontFamily: 'inherit', fontSize: 12, outline: 'none',
-                }}
-              />
-              <button type="submit" className="btn btn--blush btn--sm">Join</button>
-            </form>
           </div>
         </div>
         <div className="foot__bottom">
@@ -457,12 +490,17 @@ export default function App() {
         <Route path="/" element={
           <main>
             <Hero t={t} />
-            <Categories />
-            <NewArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
+            <ShopStructure />
+            <BoutiqueArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
             <LifestyleSplit scriptAccents={t.scriptAccents} />
             <Why />
             <Testimonials />
             <Newsletter showBlobs={t.showBlobs} />
+          </main>
+        } />
+        <Route path="/boutique" element={
+          <main>
+            <Boutique wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
           </main>
         } />
         <Route path="/cafe" element={
