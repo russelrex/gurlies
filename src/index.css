@@ -944,11 +944,11 @@ section { position: relative; }
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--line-soft);
-  background: var(--cream);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
 }
 .menu__img {
   width: 100%;
@@ -1082,8 +1082,20 @@ section { position: relative; }
 .cats--7 .cat--sm { grid-column: span 2; }
 .cats--3 {
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 300px;
+  grid-auto-rows: auto;
+  gap: 14px;
 }
+.cats--3 .cat {
+  aspect-ratio: 3 / 4;
+  min-height: 0;
+}
+.cats--3 .cat--lg,
+.cats--3 .cat--md,
+.cats--3 .cat--sm {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+.cats--3 .cat__name { font-size: clamp(20px, 2vw, 26px); }
 .dept {
   margin-top: 56px;
 }
@@ -1123,7 +1135,6 @@ section { position: relative; }
   margin-top: 28px;
   text-align: center;
 }
-.cats--3 .cat--lg { grid-column: span 1; grid-row: span 1; }
 .cat {
   position: relative; overflow: hidden;
   border-radius: var(--radius);
@@ -1556,6 +1567,9 @@ section { position: relative; }
   .cats--7 .cat--sm { grid-column: span 2; }
   .products { grid-template-columns: repeat(3, 1fr); }
   .why { grid-template-columns: repeat(3, 1fr); }
+  .cats--3 .cat--lg,
+  .cats--3 .cat--md,
+  .cats--3 .cat--sm { grid-column: span 1; }
   .why__card:nth-child(3) { border-right: 0; }
   .why__card:nth-child(n+4) { border-top: 1px solid var(--line-soft); }
   .menu__grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -1571,9 +1585,11 @@ section { position: relative; }
   .sec { padding: 70px 0; }
   .sec__head { margin-bottom: 36px; }
   .cats { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; }
-  .cats--3 { grid-template-columns: 1fr; }
+  .cats--3 { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; }
   .cat--lg, .cat--md, .cat--sm { grid-column: span 2; }
-  .cats--3 .cat--md { grid-column: span 2; }
+  .cats--3 .cat--lg,
+  .cats--3 .cat--md,
+  .cats--3 .cat--sm { grid-column: span 1; }
   .products { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
   .split { grid-template-columns: 1fr; }
   .split__col--apparel { transform: none; }

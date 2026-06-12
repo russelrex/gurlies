@@ -7,7 +7,7 @@ function CafeHero() {
   return (
     <section className="cafe-hero">
       <div className="cafe-hero__bg">
-        <img src={CAFE_IMAGES.hero} alt="Friends gathered at Hey Gurlies café" />
+        <img src={CAFE_IMAGES.hero} alt="Iced drinks lined up at Hey Gurlies café counter" />
       </div>
       <div className="container cafe-hero__inner">
         <Reveal>

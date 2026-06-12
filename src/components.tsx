@@ -77,7 +77,7 @@ export const UNSPLASH = {
 
 /* ── Café photos (local) ────────────────────────────────────────────── */
 export const CAFE_IMAGES = {
-  hero:       '/blogs/pic01.jpg',
+  hero:       '/blogs/pic16.jpg',
   coffee:     '/blogs/pic04.jpg',
   refreshers: '/blogs/pic03.jpg',
   sweets:     '/blogs/pic08.jpg',
