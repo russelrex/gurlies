@@ -92,7 +92,6 @@ export default function Boutique() {
                   <Ph variant="blush" src={col.img} alt={col.alt} style={{ position: 'absolute', inset: 0 }} />
                 </div>
                 <div className="boutique-col__body">
-                  <span className="boutique-col__emoji">{col.emoji}</span>
                   <h3 className="boutique-col__title">{col.title}</h3>
                   <p className="boutique-col__desc">{col.desc}</p>
                   <div className="boutique-col__cats">

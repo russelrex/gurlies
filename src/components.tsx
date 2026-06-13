@@ -277,7 +277,6 @@ export const PRODUCTS = BOUTIQUE_PRODUCTS;
 export const BOUTIQUE_COLLECTIONS = [
   {
     id: 'womens',
-    emoji: '👗',
     title: "Women's Clothing",
     desc: 'Trendy, stylish, and versatile pieces curated for every occasion.',
     categories: ['Tops', 'Dresses', 'Bottoms', 'Outerwear', 'Accessories'],
@@ -286,7 +285,6 @@ export const BOUTIQUE_COLLECTIONS = [
   },
   {
     id: 'menswear',
-    emoji: '👔',
     title: "Men's Clothing",
     desc: 'Classic essentials and modern styles designed for comfort and confidence.',
     categories: ['Shirts', 'Polos', 'T-Shirts', 'Jackets', 'Pants'],
@@ -295,7 +293,6 @@ export const BOUTIQUE_COLLECTIONS = [
   },
   {
     id: 'accessories',
-    emoji: '✨',
     title: 'Accessories',
     desc: 'The finishing touches that complete every outfit.',
     categories: ['Bags', 'Jewelry', 'Hair Accessories', 'Caps', 'Fashion Accessories'],
