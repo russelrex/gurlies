@@ -78,13 +78,54 @@ export const UNSPLASH = {
 /* ── Café photos (local) ────────────────────────────────────────────── */
 export const CAFE_IMAGES = {
   hero:       '/blogs/pic16.jpg',
-  coffee:     '/blogs/pic04.jpg',
-  refreshers: '/blogs/pic03.jpg',
-  sweets:     '/blogs/pic08.jpg',
+  coffee:     '/home/home_coffee.png',
+  refreshers: '/home/home_refreshers.png',
+  sweets:     '/home/home_sweet_treats.png',
   interior:   '/blogs/pic09.jpg',
+  ourSpace:   '/cafe/cafe03.jpg',
+  loyaltyCard: '/cafe/Loyalty card.png',
   counter:    '/blogs/pic06.jpg',
   latte:      '/blogs/pic05.jpg',
 } as const;
+
+export const HOME_IMAGES = {
+  hero:         '/home/home01.png',
+  womens:       '/home/home_girl01.png',
+  accessories:  '/home/home_acc01.png',
+} as const;
+
+export const ABOUT_IMAGES = {
+  hero: '/about/about01.jpg',
+  story: '/about/about02.jpg',
+} as const;
+
+export const ABOUT_SOFT_OPENING_PHOTOS = Array.from({ length: 16 }, (_, i) => {
+  const n = String(i + 1).padStart(2, '0');
+  return {
+    id: `opening-${n}`,
+    src: `/blogs/pic${n}.jpg`,
+    alt: `Hey Gurlies soft opening moments — photo ${i + 1}`,
+  };
+});
+
+export const BOUTIQUE_FRESH_FINDS = [
+  { id: 'ff1', src: '/home/home01.png',       alt: 'Model in yellow floral halter dress' },
+  { id: 'ff2', src: '/home/home_girl03.png',  alt: 'Model in white lily print top and denim' },
+  { id: 'ff3', src: '/home/home_girl02.png',  alt: 'Model in black floral maxi dress with slit' },
+  { id: 'ff4', src: '/home/home_girl01.png',  alt: 'Model in pink rose print maxi dress' },
+] as const;
+
+export function FreshFindsGrid() {
+  return (
+    <div className="fresh-finds__grid">
+      {BOUTIQUE_FRESH_FINDS.map((item) => (
+        <figure key={item.id} className="fresh-finds__item">
+          <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+        </figure>
+      ))}
+    </div>
+  );
+}
 
 /* ── Placeholder / Unsplash image ───────────────────────────────────── */
 type PhVariant = 'nude' | 'blush' | 'cocoa' | 'coffee' | 'olive';
@@ -136,62 +177,74 @@ type CategoryItem = {
 export type { CategoryItem };
 
 export const BOUTIQUE_CATEGORIES: CategoryItem[] = [
-  { id: 'womens',      name: "Women's Clothing", count: 'Tops, dresses & more', size: 'lg', variant: 'blush', tag: 'Most loved', img: UNSPLASH.catTops,    alt: 'Women\'s clothing on the rail' },
+  { id: 'womens',      name: "Women's Clothing", count: 'Tops, dresses & more', size: 'lg', variant: 'blush', tag: 'Most loved', img: HOME_IMAGES.womens, alt: 'Model wearing a floral maxi dress' },
   { id: 'menswear',    name: "Men's Clothing",   count: 'Curated picks',        size: 'md', variant: 'olive', img: UNSPLASH.catNew,     alt: 'Men\'s clothing' },
-  { id: 'accessories', name: 'Accessories',      count: 'Bags & more',          size: 'md', variant: 'cocoa', img: UNSPLASH.catVintage, alt: 'Fashion accessories' },
+  { id: 'accessories', name: 'Accessories',      count: 'Bags & more',          size: 'md', variant: 'cocoa', img: HOME_IMAGES.accessories, alt: 'Gold and pearl jewelry on silk' },
 ];
 
 export const CAFE_CATEGORIES: CategoryItem[] = [
-  { id: 'coffee',     name: '☕ Coffee',       count: 'Hot & iced pours',   size: 'md', variant: 'coffee', img: CAFE_IMAGES.coffee,     alt: 'Coffee at Hey Gurlies' },
-  { id: 'refreshers', name: '🥤 Refreshers',   count: 'Fruit sodas & more', size: 'md', variant: 'nude',   img: CAFE_IMAGES.refreshers, alt: 'Refreshing drinks' },
-  { id: 'sweets',     name: '🍰 Sweet Treats', count: 'Bites & pastries',   size: 'md', variant: 'blush',  img: CAFE_IMAGES.sweets,     alt: 'Sweet treats at the café' },
+  { id: 'coffee',     name: '☕ Coffee',       count: 'Hot & iced pours',   size: 'md', variant: 'coffee', img: CAFE_IMAGES.coffee,     alt: 'Latte with latte art and roasted coffee beans' },
+  { id: 'refreshers', name: '🥤 Refreshers',   count: 'Fruit sodas & more', size: 'md', variant: 'nude',   img: CAFE_IMAGES.refreshers, alt: 'Iced green refresher with fresh apples' },
+  { id: 'sweets',     name: '🍰 Sweet Treats', count: 'Bites & pastries',   size: 'md', variant: 'blush',  img: CAFE_IMAGES.sweets,     alt: 'Chocolate loaf cake with frosting' },
 ];
 
 export const CAFE_FEATURED = [
   {
     id: 'coffee',
-    emoji: '☕',
     title: 'Coffee',
     desc: 'Freshly brewed favorites made to fuel your day.',
     img: CAFE_IMAGES.coffee,
-    alt: 'Coffee at Hey Gurlies',
+    alt: 'Latte with latte art and roasted coffee beans',
   },
   {
     id: 'refreshers',
-    emoji: '🥤',
     title: 'Refreshers',
     desc: 'Light, refreshing drinks perfect for warm afternoons.',
     img: CAFE_IMAGES.refreshers,
-    alt: 'Refreshing drinks',
+    alt: 'Iced green refresher with fresh apples',
   },
   {
     id: 'sweets',
-    emoji: '🍰',
     title: 'Sweet Treats',
     desc: 'Freshly prepared desserts and café favorites.',
     img: CAFE_IMAGES.sweets,
-    alt: 'Sweet treats at the café',
+    alt: 'Chocolate loaf cake with frosting',
   },
 ] as const;
 
-export const CAFE_GALLERY = [
-  { src: CAFE_IMAGES.latte,      alt: 'Coffee preparation at Hey Gurlies' },
-  { src: CAFE_IMAGES.coffee,     alt: 'Coffee cups ready to serve' },
-  { src: CAFE_IMAGES.sweets,     alt: 'Sweet treats display' },
-  { src: '/blogs/pic01.jpg',     alt: 'Customers enjoying the café' },
-  { src: CAFE_IMAGES.interior,   alt: 'Interior seating area' },
-  { src: CAFE_IMAGES.counter,    alt: 'Café counter area' },
-] as const;
+export const CAFE_GALLERY = Array.from({ length: 16 }, (_, i) => {
+  const n = String(i + 1).padStart(2, '0');
+  return {
+    id: `pic${n}`,
+    src: `/blogs/pic${n}.jpg`,
+    alt: `Hey Gurlies café and boutique moments — photo ${i + 1}`,
+  };
+});
 
 export const CAFE_PROMOTION = {
-  emoji: '👨☕',
-  title: "Father's Day Special",
-  lines: [
-    'Buy Any 2 Drinks',
-    'Dad Gets a FREE Coffee or Refresher',
+  title: "Father's Day Special ☕👨",
+  intro:
+    "This Father's Day, let's celebrate the dads who work hard, provide, support, and love their families every day. 🤍",
+  invite: "Join us at Hey Gurlies! Café and enjoy our Father's Day Weekend Special.",
+  offer: '🎉 Buy any 2 drinks and Dad gets a FREE coffee or refresher!',
+  details: [
+    { text: '📅 June 20th, Saturday' },
+    { text: '📍 Hey Gurlies! Café' },
+    { text: '📍 Decolores Village, Pangantucan, Bukidnon' },
   ],
-  date: 'June 21 Only',
+  closing: 'Bring Dad, enjoy a good drink, and make memories together.',
+  signoff: "Happy Father's Day! 🤍",
 } as const;
+
+const FATHER_PROMO_BASE =
+  '/cafe/father/Thank you for celebrating the special day with us! We hope you had a wonderful time and we look forward to seeing you again soon';
+
+export const CAFE_PROMOTIONS = [
+  { id: 'father-1', src: `${FATHER_PROMO_BASE}. (1).png`, alt: "Father's Day promotion — World's Best Dad" },
+  { id: 'father-2', src: `${FATHER_PROMO_BASE}. (2).png`, alt: "Father's Day promotion — I got my attitude from Dad" },
+  { id: 'father-3', src: `${FATHER_PROMO_BASE}. (3).png`, alt: "Father's Day promotion — I created this masterpiece" },
+  { id: 'father-4', src: `${FATHER_PROMO_BASE}..png`,    alt: "Father's Day promotion — I got my looks from Dad" },
+];
 
 /** @deprecated use CAFE_CATEGORIES */
 export const CAFE_FAVORITES = CAFE_CATEGORIES;
@@ -220,10 +273,6 @@ export const BOUTIQUE_PRODUCTS: Product[] = [
 export const PRODUCTS = BOUTIQUE_PRODUCTS;
 
 /* ── Boutique page data ─────────────────────────────────────────────── */
-export const HOME_IMAGES = {
-  hero: '/home/home01.png',
-} as const;
-
 export const BOUTIQUE_COLLECTIONS = [
   {
     id: 'womens',
@@ -231,8 +280,8 @@ export const BOUTIQUE_COLLECTIONS = [
     title: "Women's Clothing",
     desc: 'Trendy, stylish, and versatile pieces curated for every occasion.',
     categories: ['Tops', 'Dresses', 'Bottoms', 'Outerwear', 'Accessories'],
-    img: UNSPLASH.catTops,
-    alt: "Women's clothing collection",
+    img: HOME_IMAGES.womens,
+    alt: 'Model wearing a floral maxi dress',
   },
   {
     id: 'menswear',
@@ -249,8 +298,8 @@ export const BOUTIQUE_COLLECTIONS = [
     title: 'Accessories',
     desc: 'The finishing touches that complete every outfit.',
     categories: ['Bags', 'Jewelry', 'Hair Accessories', 'Caps', 'Fashion Accessories'],
-    img: UNSPLASH.catVintage,
-    alt: 'Fashion accessories',
+    img: HOME_IMAGES.accessories,
+    alt: 'Gold and pearl jewelry on silk',
   },
 ] as const;
 
@@ -259,6 +308,7 @@ export const BOUTIQUE_WHY_SHOP = [
   { title: 'Unique Finds',         body: "Discover pieces you won't find everywhere." },
   { title: 'Affordable Fashion',   body: 'Look your best without breaking the budget.' },
   { title: 'Community-Focused',    body: "More than a boutique, we're a place where people connect and feel welcome." },
+  { title: 'Sip & Style',          body: 'Shop curated fashion, then unwind at our café — all under one cozy roof.' },
 ] as const;
 
 export const BOUTIQUE_CUSTOMER_PHOTOS = [
@@ -303,7 +353,7 @@ export const NAV_ITEMS = [
   { label: 'Home',     to: '/' },
   { label: 'Boutique', to: '/boutique' },
   { label: 'Café',     to: '/cafe' },
-  { label: 'About',    to: '/', hash: 'about' },
+  { label: 'About',    to: '/about' },
   { label: 'Contact',  to: '/', hash: 'contact' },
 ] as const;
 
@@ -325,6 +375,7 @@ export function Header() {
   const isActive = (item: typeof NAV_ITEMS[number]) => {
     if (item.to === '/cafe') return location.pathname === '/cafe';
     if (item.to === '/boutique') return location.pathname === '/boutique';
+    if (item.to === '/about') return location.pathname === '/about';
     if (item.label === 'Home') return location.pathname === '/' && !location.hash;
     if (location.pathname !== '/') return false;
     if ('hash' in item && item.hash) return location.hash === `#${item.hash}`;
@@ -416,13 +467,13 @@ export const CAFE_MENUS = [
   {
     id: 'refreshers',
     label: 'House Refreshers',
-    src: '/cafe/Signature Refreshers.png',
+    src: '/cafe/Signature Refreshers (1).png',
     alt: 'Hey Gurlies house refreshers menu — sparkling sodas, fresh blends, and add-ons',
   },
   {
     id: 'sweets',
     label: 'Sweet Treats',
-    src: '/cafe/Sweet treats.png',
+    src: '/cafe/Sweet treats (2).png',
     alt: 'Hey Gurlies sweet treats menu — cakes, waffles, brownies, and cookies',
   },
 ] as const;

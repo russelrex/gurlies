@@ -1,21 +1,10 @@
 import { Link } from 'react-router-dom';
 import {
-  Icon, Ph, Reveal, ProductCard,
-  BOUTIQUE_PRODUCTS, BOUTIQUE_COLLECTIONS, BOUTIQUE_WHY_SHOP,
+  Icon, Ph, Reveal, ProductCard, FreshFindsGrid,
+  BOUTIQUE_COLLECTIONS, BOUTIQUE_WHY_SHOP,
   BOUTIQUE_CUSTOMER_PHOTOS, HOME_IMAGES, CAFE_IMAGES, CAFE_CATEGORIES,
 } from '../components';
 import type { Product } from '../components';
-
-interface BoutiqueProps {
-  wishlist: Set<string>;
-  onWish: (id: string) => void;
-  onAdd: (p: Product) => void;
-}
-
-const NEW_ARRIVALS = BOUTIQUE_PRODUCTS.filter(p => p.tag === 'NEW');
-const BEST_SELLERS = BOUTIQUE_PRODUCTS.filter(p => p.tag === 'ONE OF ONE' || p.tag === 'MARKDOWN').slice(0, 4);
-const WOMENS_FAVES = BOUTIQUE_PRODUCTS.filter(p => p.filter === 'womens').slice(0, 3);
-const MENS_FAVES = BOUTIQUE_PRODUCTS.filter(p => p.filter === 'menswear');
 
 function BoutiqueHero() {
   return (
@@ -53,7 +42,7 @@ function BoutiqueHero() {
   );
 }
 
-function ProductSection({ id, title, script, eyebrow, intro, products, ctaLabel, ctaTo, wishlist, onWish, onAdd }: {
+export function ProductSection({ id, title, script, eyebrow, intro, products, ctaLabel, ctaTo, wishlist, onWish, onAdd }: {
   id: string; title: string; script?: string; eyebrow: string; intro: string;
   products: Product[]; ctaLabel: string; ctaTo: string;
   wishlist: Set<string>; onWish: (id: string) => void; onAdd: (p: Product) => void;
@@ -85,7 +74,7 @@ function ProductSection({ id, title, script, eyebrow, intro, products, ctaLabel,
   );
 }
 
-export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
+export default function Boutique() {
   return (
     <>
       <BoutiqueHero />
@@ -122,19 +111,31 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
         </div>
       </section>
 
-      <ProductSection
-        id="new-arrivals"
-        title="Fresh Finds"
-        script="This Month"
-        eyebrow="New Arrivals"
-        intro="Discover the latest additions to our collection."
-        products={NEW_ARRIVALS.length ? NEW_ARRIVALS : BOUTIQUE_PRODUCTS.slice(0, 4)}
-        ctaLabel="View All New Arrivals"
-        ctaTo="#new-arrivals"
-        wishlist={wishlist} onWish={onWish} onAdd={onAdd}
-      />
+      <section className="sec" id="new-arrivals">
+        <div className="container">
+          <Reveal className="sec__head">
+            <h2 className="sec__title">
+              Fresh Finds<br /><span className="script">This Month</span>
+            </h2>
+            <div className="sec__intro">
+              <span className="eyebrow">New Arrivals</span>
+              Discover the latest additions to our collection.
+            </div>
+          </Reveal>
+          <Reveal>
+            <FreshFindsGrid />
+          </Reveal>
+          <Reveal delay={80}>
+            <div className="boutique-sec__cta">
+              <a className="sec__link" href="#new-arrivals">
+                View All New Arrivals <Icon name="arrow" size={14} sw={1.8} />
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-      <ProductSection
+      {/* <ProductSection
         id="best-sellers"
         title="Most Loved"
         script="by Our Customers"
@@ -144,7 +145,7 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
         ctaLabel="Shop Best Sellers"
         ctaTo="#best-sellers"
         wishlist={wishlist} onWish={onWish} onAdd={onAdd}
-      />
+      /> */}
 
       {/* Why Shop */}
       <section className="sec" id="why-shop">
@@ -152,10 +153,12 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
           <Reveal className="sec__head">
             <h2 className="sec__title">Why Shop at<br /><span className="script">Hey Gurlies?</span></h2>
           </Reveal>
-          <Reveal className="why why--4">
+          <Reveal className="why">
             {BOUTIQUE_WHY_SHOP.map((w, i) => (
               <div key={w.title} className="why__card">
-                <div className="why__num">{String(i + 1).padStart(2, '0')} / 04</div>
+                <div className="why__num">
+                  {String(i + 1).padStart(2, '0')} / {String(BOUTIQUE_WHY_SHOP.length).padStart(2, '0')}
+                </div>
                 <div className="why__body">{w.body}</div>
                 <div className="why__title">{w.title}</div>
               </div>
@@ -196,7 +199,7 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
             <h2 className="sec__title">Customer<br /><span className="script">Favorites.</span></h2>
             <div className="sec__intro">
               <span className="eyebrow">Top picks &amp; real moments</span>
-              Top-selling women's pieces, popular men's styles, and snapshots from the boutique.
+              Snapshots from the boutique and real moments with our community.
             </div>
           </Reveal>
           <Reveal className="boutique-fav-photos">
@@ -204,11 +207,6 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
               <div key={i} className="boutique-fav-photo">
                 <img src={photo.src} alt={photo.alt} loading="lazy" />
               </div>
-            ))}
-          </Reveal>
-          <Reveal className="products" delay={60}>
-            {[...WOMENS_FAVES, ...MENS_FAVES, ...BOUTIQUE_PRODUCTS.filter(p => p.filter === 'accessories')].map(p => (
-              <ProductCard key={p.id} p={p} wished={wishlist.has(p.id)} onWish={onWish} onAdd={onAdd} />
             ))}
           </Reveal>
         </div>
@@ -255,14 +253,14 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
             </div>
             <div className="boutique-visit__block">
               <span className="boutique-visit__label">Hours</span>
-              <p>Monday – Sunday<br />9:00 AM – 7:00 PM</p>
+              <p>Monday – Sunday<br />8:00 AM – 8:00 PM</p>
             </div>
             <div className="boutique-visit__block">
               <span className="boutique-visit__label">Contact</span>
               <ul className="boutique-visit__contact">
-                <li><a href="#">Facebook Messenger</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="tel:">Phone Number</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=61590077894581" target="_blank" rel="noopener noreferrer">Facebook Messenger</a></li>
+                {/* <li><a href="#">Instagram</a></li> */}
+                {/* <li><a href="tel:">Phone Number</a></li> */}
               </ul>
             </div>
           </Reveal>
@@ -284,9 +282,9 @@ export default function Boutique({ wishlist, onWish, onAdd }: BoutiqueProps) {
               <span>👔 Men's Clothing</span>
               <span>✨ Accessories</span>
             </div>
-            <div className="hero__ctas" style={{ justifyContent: 'center' }}>
+            <div className="hero__ctas boutique-final__ctas">
               <a className="btn btn--primary" href="#womens">Shop Women's</a>
-              <a className="btn btn--ghost" href="#mens">Shop Men's</a>
+              <a className="btn btn--dark" href="#mens">Shop Men's</a>
             </div>
           </Reveal>
         </div>

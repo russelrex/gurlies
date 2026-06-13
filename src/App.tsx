@@ -3,13 +3,14 @@ import type { CSSProperties } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import {
   Icon, Ph, Reveal,
-  Header, ProductCard, Testimonials, CartDrawer,
-  BOUTIQUE_CATEGORIES, BOUTIQUE_FILTERS, BOUTIQUE_PRODUCTS,
+  Header, CartDrawer, FreshFindsGrid,
+  BOUTIQUE_CATEGORIES,
   CAFE_CATEGORIES, WHY, UNSPLASH, CAFE_IMAGES,
 } from './components';
-import type { Product, CartItem, CategoryItem } from './components';
+import type { CartItem, CategoryItem } from './components';
 import Cafe from './pages/Cafe';
 import Boutique from './pages/Boutique';
+import About from './pages/About';
 import { ScrollToTop } from './ScrollToTop';
 import {
   useTweaks, TweaksPanel, TweakSection, TweakText, TweakRadio, TweakToggle, TweakColor,
@@ -58,7 +59,7 @@ function Hero({ t }: { t: typeof TWEAK_DEFAULTS }) {
     ? <>
         <div className="hero__bg-img"><Ph variant="blush"  src="/home/home01.png" alt="Hey Gurlies boutique fashion" style={{ position: 'absolute', inset: 0 }} /></div>
         <div className="hero__bg-img"><Ph variant="coffee" src={UNSPLASH.heroFlatLay}   alt="Vintage apparel flat lay"   style={{ position: 'absolute', inset: 0 }} /></div>
-        <div className="hero__bg-img"><Ph variant="nude"   src={UNSPLASH.heroBoutique}  alt="Curated clothing boutique"  style={{ position: 'absolute', inset: 0 }} /></div>
+        <div className="hero__bg-img"><Ph variant="nude"   src="/home/home_male0.png" alt="Men's clothing at Hey Gurlies" style={{ position: 'absolute', inset: 0 }} /></div>
       </>
     : <div className="hero__bg-img" style={{ gridColumn: '1 / -1', gridRow: '1 / -1' }}>
         <Ph variant="cocoa" src={UNSPLASH.heroFull} alt="Full-bleed fashion editorial" style={{ position: 'absolute', inset: 0 }} />
@@ -167,6 +168,20 @@ function ShopStructure() {
           </div>
         </Reveal>
 
+        <Reveal className="fresh-finds" delay={80} id="new-arrivals">
+          <div className="dept__head">
+            <span className="dept__brand">Hey Gurlies</span>
+            <h2 className="dept__title">Fresh Finds</h2>
+            <p className="dept__sub">Discover the latest additions to our collection.</p>
+          </div>
+          <FreshFindsGrid />
+          <div className="dept__cta">
+            <Link className="sec__link" to="/boutique#new-arrivals">
+              View all new arrivals <Icon name="arrow" size={14} sw={1.8} />
+            </Link>
+          </div>
+        </Reveal>
+
         <Reveal className="dept dept--cafe" delay={100} id="cafe-preview">
           <div className="dept__head">
             <span className="dept__brand">Hey Gurlies</span>
@@ -189,52 +204,8 @@ function ShopStructure() {
   );
 }
 
-/* ── Boutique — New Arrivals ──────────────────────────────────────── */
-function BoutiqueArrivals({ wishlist, onWish, onAdd }: {
-  wishlist: Set<string>; onWish: (id: string) => void; onAdd: (p: Product) => void;
-}) {
-  const [active, setActive] = useState('all');
-  const items = active === 'all'
-    ? BOUTIQUE_PRODUCTS
-    : BOUTIQUE_PRODUCTS.filter(p => p.filter === active);
-  return (
-    <section className="sec" id="new-arrivals" style={{ paddingTop: 40 }}>
-      <div className="container">
-        <Reveal className="sec__head">
-          <h2 className="sec__title">
-            Boutique ·<br /><i>new this week.</i>
-          </h2>
-          <div className="sec__intro">
-            <span className="eyebrow">Clothing &amp; accessories only</span>
-            Curated styles for women and men — café drinks are on the menu, not in the rail.
-          </div>
-        </Reveal>
-        <Reveal>
-          <div className="filters" id="boutique-shop">
-            {BOUTIQUE_FILTERS.map(f => (
-              <button key={f.id} data-active={active === f.id ? '1' : '0'}
-                      onClick={() => setActive(f.id)}>{f.label}</button>
-            ))}
-            <Link className="sec__link" to="/boutique" style={{ marginLeft: 'auto', alignSelf: 'center' }}>
-              Browse categories <Icon name="arrow" size={14} sw={1.8} />
-            </Link>
-          </div>
-        </Reveal>
-        <Reveal className="products">
-          {items.map(p => (
-            <ProductCard key={p.id} p={p}
-                         wished={wishlist.has(p.id)}
-                         onWish={onWish}
-                         onAdd={onAdd} />
-          ))}
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ── Lifestyle split ────────────────────────────────────────────────── */
-function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
+export function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
   return (
     <section className="sec" id="lifestyle" style={{ background: 'var(--cream-2)' }}>
       <div className="container split">
@@ -277,7 +248,7 @@ function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
 }
 
 /* ── Why Hey Gurlies ────────────────────────────────────────────────── */
-function Why() {
+export function Why() {
   return (
     <section className="sec" id="about">
       <div className="container">
@@ -306,7 +277,7 @@ function Why() {
 }
 
 /* ── Newsletter ─────────────────────────────────────────────────────── */
-function Newsletter({ showBlobs }: { showBlobs: boolean }) {
+export function Newsletter({ showBlobs }: { showBlobs: boolean }) {
   const [email, setEmail] = useState('');
   const [state, setState] = useState({ kind: 'idle', msg: '' });
   const submit = (e: React.FormEvent) => {
@@ -399,7 +370,7 @@ function Footer() {
           <div className="foot__col">
             <h4>About</h4>
             <ul>
-              <li><a href="#about">Our Story</a></li>
+              <li><Link to="/about">Our Story</Link></li>
               <li><Link to="/boutique">The Boutique</Link></li>
               <li><a href="/cafe">The Café</a></li>
             </ul>
@@ -440,7 +411,6 @@ function Toast({ msg, show }: { msg: string; show: boolean }) {
 export default function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [wishlist, setWishlist] = useState(() => new Set<string>());
   const [cartOpen, setCartOpen] = useState(false);
   const [toast, setToast] = useState({ show: false, msg: '' });
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -452,24 +422,6 @@ export default function App() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(s => ({ ...s, show: false })), 2200);
   };
-
-  const onWish = useCallback((id: string) => {
-    setWishlist(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) { next.delete(id); showToast('Removed from wishlist'); }
-      else { next.add(id); showToast('Added to wishlist ♡'); }
-      return next;
-    });
-  }, []);
-
-  const onAdd = useCallback((p: Product) => {
-    setCart(prev => {
-      const ex = prev.find(i => i.id === p.id);
-      if (ex) return prev.map(i => i.id === p.id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { id: p.id, name: p.name, brand: p.brand, price: p.price, v: p.v, qty: 1 }];
-    });
-    showToast(`Added · ${p.name}`);
-  }, []);
 
   const onQty = useCallback((id: string, delta: number) => {
     setCart(prev => prev
@@ -491,16 +443,20 @@ export default function App() {
           <main>
             <Hero t={t} />
             <ShopStructure />
-            <BoutiqueArrivals wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
-            <LifestyleSplit scriptAccents={t.scriptAccents} />
-            <Why />
-            <Testimonials />
-            <Newsletter showBlobs={t.showBlobs} />
+            {/* <LifestyleSplit scriptAccents={t.scriptAccents} /> */}
+            {/* <Why /> */}
+            {/* <Testimonials /> */}
+            {/* <Newsletter showBlobs={t.showBlobs} /> */}
           </main>
         } />
         <Route path="/boutique" element={
           <main>
-            <Boutique wishlist={wishlist} onWish={onWish} onAdd={onAdd} />
+            <Boutique />
+          </main>
+        } />
+        <Route path="/about" element={
+          <main>
+            <About />
           </main>
         } />
         <Route path="/cafe" element={

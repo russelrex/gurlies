@@ -1,6 +1,6 @@
 import {
   Icon, Ph, Reveal, CafeMenu,
-  CAFE_IMAGES, CAFE_FEATURED, CAFE_GALLERY, CAFE_PROMOTION,
+  CAFE_IMAGES, CAFE_FEATURED, CAFE_GALLERY, CAFE_PROMOTION, CAFE_PROMOTIONS,
 } from '../components';
 
 function CafeHero() {
@@ -57,7 +57,7 @@ export default function Cafe() {
                   <Ph variant="coffee" src={cat.img} alt={cat.alt} style={{ position: 'absolute', inset: 0 }} />
                 </div>
                 <div className="cafe-col__body">
-                  <span className="cafe-col__emoji">{cat.emoji}</span>
+                  {/* <span className="cafe-col__emoji">{cat.emoji}</span> */}
                   <h3 className="cafe-col__title">{cat.title}</h3>
                   <p className="cafe-col__desc">{cat.desc}</p>
                   <a className="sec__link" href={`#menu-${cat.id}`}>
@@ -89,7 +89,7 @@ export default function Cafe() {
             </p>
           </Reveal>
           <Reveal className="cafe-space__img" delay={80}>
-            <Ph variant="coffee" src={CAFE_IMAGES.interior} alt="Hey Gurlies café interior" style={{ position: 'absolute', inset: 0 }} />
+            <Ph variant="coffee" src={CAFE_IMAGES.ourSpace} alt="Hey Gurlies café interior" style={{ position: 'absolute', inset: 0 }} />
           </Reveal>
         </div>
       </section>
@@ -105,8 +105,8 @@ export default function Cafe() {
             </div>
           </Reveal>
           <Reveal className="cafe-gallery">
-            {CAFE_GALLERY.map((photo, i) => (
-              <figure key={i} className="cafe-gallery__item">
+            {CAFE_GALLERY.map((photo) => (
+              <figure key={photo.id} className="cafe-gallery__item">
                 <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
               </figure>
             ))}
@@ -124,13 +124,23 @@ export default function Cafe() {
               Active offers and limited-time specials at the café.
             </div>
           </Reveal>
-          <Reveal className="cafe-promo__card" delay={80}>
-            <span className="cafe-promo__emoji">{CAFE_PROMOTION.emoji}</span>
+          <Reveal className="cafe-promo__card" delay={60}>
             <h3 className="cafe-promo__title">{CAFE_PROMOTION.title}</h3>
-            <ul className="cafe-promo__lines">
-              {CAFE_PROMOTION.lines.map(line => <li key={line}>{line}</li>)}
+            <p className="cafe-promo__text">{CAFE_PROMOTION.intro}</p>
+            <p className="cafe-promo__text">{CAFE_PROMOTION.invite}</p>
+            <p className="cafe-promo__offer">{CAFE_PROMOTION.offer}</p>
+            <ul className="cafe-promo__details">
+              {CAFE_PROMOTION.details.map(d => <li key={d.text}>{d.text}</li>)}
             </ul>
-            <span className="cafe-promo__date">{CAFE_PROMOTION.date}</span>
+            <p className="cafe-promo__text">{CAFE_PROMOTION.closing}</p>
+            <p className="cafe-promo__signoff">{CAFE_PROMOTION.signoff}</p>
+          </Reveal>
+          <Reveal className="cafe-promo__grid" delay={80}>
+            {CAFE_PROMOTIONS.map((promo) => (
+              <figure key={promo.id} className="cafe-promo__item">
+                <img src={promo.src} alt={promo.alt} loading="lazy" decoding="async" />
+              </figure>
+            ))}
           </Reveal>
         </div>
       </section>
@@ -146,15 +156,18 @@ export default function Cafe() {
               Sip &amp; Style<br /><span className="script">Rewards.</span>
             </h2>
             <p className="cafe-loyalty__text">
-              Collect 10 stamps and enjoy a <strong>FREE coffee</strong>.
+              Collect 9 stamps and enjoy a <strong>FREE coffee</strong>.
             </p>
             <p className="cafe-loyalty__sub">
               Ask our staff for your loyalty card.
             </p>
-            <div className="cafe-loyalty__stamps" aria-hidden="true">
-              {Array.from({ length: 10 }, (_, i) => (
-                <span key={i} className="cafe-loyalty__stamp">{i < 3 ? '☕' : ''}</span>
-              ))}
+            <div className="cafe-loyalty__card">
+              <img
+                src={CAFE_IMAGES.loyaltyCard}
+                alt="Hey Gurlies loyalty card — collect 9 stamps and enjoy a free coffee"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           </Reveal>
         </div>
@@ -176,9 +189,9 @@ export default function Cafe() {
             <div className="boutique-visit__block">
               <span className="boutique-visit__label">Contact</span>
               <ul className="boutique-visit__contact">
-                <li><a href="#">Facebook Messenger</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="tel:">Phone Number</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=61590077894581" target="_blank" rel="noopener noreferrer">Facebook Messenger</a></li>
+                {/* <li><a href="#">Instagram</a></li>
+                <li><a href="tel:">Phone Number</a></li> */}
               </ul>
             </div>
           </Reveal>
