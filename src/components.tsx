@@ -99,14 +99,15 @@ export const ABOUT_IMAGES = {
   story: '/about/about02.jpg',
 } as const;
 
-export const ABOUT_SOFT_OPENING_PHOTOS = Array.from({ length: 16 }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return {
-    id: `opening-${n}`,
-    src: `/blogs/pic${n}.jpg`,
-    alt: `Hey Gurlies soft opening moments — photo ${i + 1}`,
-  };
-});
+export const ABOUT_SOFT_OPENING_PHOTOS = [
+  'IMG_1328', 'IMG_1332', 'IMG_1382', 'IMG_1383', 'IMG_1387', 'IMG_1391',
+  'IMG_1407', 'IMG_1412', 'IMG_1418', 'IMG_1429', 'IMG_1432', 'IMG_1435',
+  'IMG_1444', 'IMG_1447', 'IMG_1483', 'IMG_1484',
+].map((name, i) => ({
+  id: name,
+  src: `/about/soft/${name}.jpg`,
+  alt: `Hey Gurlies soft opening — photo ${i + 1}`,
+}));
 
 export const BOUTIQUE_FRESH_FINDS = [
   { id: 'ff1', src: '/home/home01.png',       alt: 'Model in yellow floral halter dress' },
