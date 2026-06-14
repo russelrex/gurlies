@@ -229,7 +229,7 @@ export const CAFE_PROMOTION = {
   invite: "Join us at Hey Gurlies! Café and enjoy our Father's Day Weekend Special.",
   offer: '🎉 Buy any 2 drinks and Dad gets a FREE coffee or refresher!',
   details: [
-    { text: '📅 June 20th, Saturday' },
+    { text: '📅 June 21st, Sunday' },
     { text: '📍 Hey Gurlies! Café' },
     { text: '📍 Decolores Village, Pangantucan, Bukidnon' },
   ],
