@@ -241,9 +241,9 @@ const FATHER_PROMO_BASE =
   '/cafe/father/Thank you for celebrating the special day with us! We hope you had a wonderful time and we look forward to seeing you again soon';
 
 export const CAFE_PROMOTIONS = [
-  { id: 'father-1', src: `${FATHER_PROMO_BASE}. (1).png`, alt: "Father's Day promotion — World's Best Dad" },
-  { id: 'father-2', src: `${FATHER_PROMO_BASE}. (2).png`, alt: "Father's Day promotion — I got my attitude from Dad" },
   { id: 'father-3', src: `${FATHER_PROMO_BASE}. (3).png`, alt: "Father's Day promotion — I created this masterpiece" },
+  { id: 'father-2', src: `${FATHER_PROMO_BASE}. (2).png`, alt: "Father's Day promotion — I got my attitude from Dad" },
+  { id: 'father-1', src: `${FATHER_PROMO_BASE}. (1).png`, alt: "Father's Day promotion — World's Best Dad" },
   { id: 'father-4', src: `${FATHER_PROMO_BASE}..png`,    alt: "Father's Day promotion — I got my looks from Dad" },
 ];
 
