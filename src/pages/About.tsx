@@ -3,17 +3,14 @@ import { Icon, Reveal, ABOUT_IMAGES, ABOUT_SOFT_OPENING_PHOTOS } from '../compon
 
 function AboutHero() {
   return (
-    <section className="about-hero">
+    <section className="about-hero about-hero--brand">
       <div className="about-hero__bg">
-        <img src={ABOUT_IMAGES.hero} alt="Hey Gurlies boutique and café community" />
+        <img src={ABOUT_IMAGES.hero} alt="Hey Gurlies — Sip, Style & Stay Awhile" />
       </div>
       <div className="container about-hero__inner">
         <Reveal>
-          <div className="hero__eyebrow">Hey Gurlies!</div>
-          <h1 className="about-hero__title">
-            About<br /><span className="script">Hey Gurlies.</span>
-          </h1>
-          <p className="about-hero__sub">Welcome to Hey Gurlies! 🤍</p>
+          <h1 className="about-hero__title visually-hidden">About Hey Gurlies</h1>
+          {/* <p className="about-hero__sub">Welcome to Hey Gurlies! 🤍</p> */}
         </Reveal>
       </div>
       <div className="hero__scroll">scroll · keep going</div>

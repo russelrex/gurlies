@@ -95,8 +95,8 @@ export const HOME_IMAGES = {
 } as const;
 
 export const ABOUT_IMAGES = {
-  hero: '/about/about01.jpg',
-  story: '/about/about02.jpg',
+  hero: '/about/about.png',
+  story: '/about/about_05.jpg',
 } as const;
 
 export const ABOUT_SOFT_OPENING_PHOTOS = [
