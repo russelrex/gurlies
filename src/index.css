@@ -1833,7 +1833,7 @@ section { position: relative; }
   .cats--3 .cat--sm { grid-column: span 1; }
   .why__card:nth-child(3) { border-right: 0; }
   .why__card:nth-child(n+4) { border-top: 1px solid var(--line-soft); }
-  .menu__grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .menu__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .menu__frame, .menu__img { max-height: min(45vh, 400px); }
 }
 @media (max-width: 760px) {

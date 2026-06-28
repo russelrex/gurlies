@@ -458,23 +458,41 @@ export function ProductCard({ p, wished, onWish, onAdd }: {
 export const CAFE_MENUS = [
   {
     id: 'coffee',
-    label: 'Coffee',
-    src: '/menu.png',
-    alt: 'Hey Gurlies coffee menu — hot, iced, and non-coffee drinks with prices in PHP',
+    label: 'Coffee Favorites',
+    src: '/cafe/update01.png',
+    alt: 'Hey Gurlies coffee favorites menu — hot and iced coffee drinks',
   },
   {
     id: 'refreshers',
-    label: 'House Refreshers',
-    src: '/cafe/Signature Refreshers (1).png',
-    alt: 'Hey Gurlies house refreshers menu — sparkling sodas, fresh blends, and add-ons',
+    label: 'House Specials',
+    src: '/cafe/update02.png',
+    alt: 'Hey Gurlies house specials — sparkling and signature series',
   },
   {
     id: 'sweets',
     label: 'Sweet Treats',
-    src: '/cafe/Sweet treats (2).png',
+    src: '/cafe/update03.png',
     alt: 'Hey Gurlies sweet treats menu — cakes, waffles, brownies, and cookies',
   },
-] as const;
+  {
+    id: 'blends',
+    label: 'Fruit Blends & Frappes',
+    src: '/cafe/update04.png',
+    alt: 'Hey Gurlies fruit blends and frappes menu',
+  },
+  {
+    id: 'noodles',
+    label: 'Noodle Series',
+    src: '/cafe/update05.png',
+    alt: 'Hey Gurlies noodle series menu — ramen and add-ons',
+  },
+  {
+    id: 'bites',
+    label: 'Crave Bites',
+    src: '/cafe/update06.png',
+    alt: 'Hey Gurlies crave bites menu — fries, fruggets, and siomai',
+  },
+];
 
 export function CafeMenu() {
   return (
@@ -486,7 +504,7 @@ export function CafeMenu() {
           </h2>
           <div className="sec__intro">
             <span className="eyebrow">Hey Gurlies! · Sip, style &amp; stay awhile</span>
-            Coffee, refreshers, and sweet treats — all priced for lingering.
+            Coffee, refreshers, sweet treats, noodles, and more — all priced for lingering.
           </div>
         </Reveal>
         <div className="menu__grid">
