@@ -1,6 +1,6 @@
 import {
   Icon, Ph, Reveal, CafeMenu,
-  CAFE_IMAGES, CAFE_FEATURED, CAFE_GALLERY, CAFE_PROMOTION, CAFE_PROMOTIONS,
+  CAFE_IMAGES, CAFE_FEATURED, CAFE_GALLERY,
 } from '../components';
 
 function CafeHero() {
@@ -108,37 +108,6 @@ export default function Cafe() {
             {CAFE_GALLERY.map((photo) => (
               <figure key={photo.id} className="cafe-gallery__item">
                 <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-              </figure>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Seasonal Promotions */}
-      <section className="sec cafe-promo" id="promotions">
-        <div className="container">
-          <Reveal className="sec__head">
-            <h2 className="sec__title">Current<br /><span className="script">Promotions.</span></h2>
-            <div className="sec__intro">
-              <span className="eyebrow">Father's Day / Seasonal</span>
-              Active offers and limited-time specials at the café.
-            </div>
-          </Reveal>
-          <Reveal className="cafe-promo__card" delay={60}>
-            <h3 className="cafe-promo__title">{CAFE_PROMOTION.title}</h3>
-            <p className="cafe-promo__text">{CAFE_PROMOTION.intro}</p>
-            <p className="cafe-promo__text">{CAFE_PROMOTION.invite}</p>
-            <p className="cafe-promo__offer">{CAFE_PROMOTION.offer}</p>
-            <ul className="cafe-promo__details">
-              {CAFE_PROMOTION.details.map(d => <li key={d.text}>{d.text}</li>)}
-            </ul>
-            <p className="cafe-promo__text">{CAFE_PROMOTION.closing}</p>
-            <p className="cafe-promo__signoff">{CAFE_PROMOTION.signoff}</p>
-          </Reveal>
-          <Reveal className="cafe-promo__grid" delay={80}>
-            {CAFE_PROMOTIONS.map((promo) => (
-              <figure key={promo.id} className="cafe-promo__item">
-                <img src={promo.src} alt={promo.alt} loading="lazy" decoding="async" />
               </figure>
             ))}
           </Reveal>

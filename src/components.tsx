@@ -222,31 +222,6 @@ export const CAFE_GALLERY = Array.from({ length: 16 }, (_, i) => {
   };
 });
 
-export const CAFE_PROMOTION = {
-  title: "Father's Day Special ☕👨",
-  intro:
-    "This Father's Day, let's celebrate the dads who work hard, provide, support, and love their families every day. 🤍",
-  invite: "Join us at Hey Gurlies! Café and enjoy our Father's Day Weekend Special.",
-  offer: '🎉 Buy any 2 drinks and Dad gets a FREE coffee or refresher!',
-  details: [
-    { text: '📅 June 21st, Sunday' },
-    { text: '📍 Hey Gurlies! Café' },
-    { text: '📍 Decolores Village, Pangantucan, Bukidnon' },
-  ],
-  closing: 'Bring Dad, enjoy a good drink, and make memories together.',
-  signoff: "Happy Father's Day! 🤍",
-} as const;
-
-const FATHER_PROMO_BASE =
-  '/cafe/father/Thank you for celebrating the special day with us! We hope you had a wonderful time and we look forward to seeing you again soon';
-
-export const CAFE_PROMOTIONS = [
-  { id: 'father-3', src: `${FATHER_PROMO_BASE}. (3).png`, alt: "Father's Day promotion — I created this masterpiece" },
-  { id: 'father-2', src: `${FATHER_PROMO_BASE}. (2).png`, alt: "Father's Day promotion — I got my attitude from Dad" },
-  { id: 'father-1', src: `${FATHER_PROMO_BASE}. (1).png`, alt: "Father's Day promotion — World's Best Dad" },
-  { id: 'father-4', src: `${FATHER_PROMO_BASE}..png`,    alt: "Father's Day promotion — I got my looks from Dad" },
-];
-
 /** @deprecated use CAFE_CATEGORIES */
 export const CAFE_FAVORITES = CAFE_CATEGORIES;
 

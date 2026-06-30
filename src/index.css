@@ -398,75 +398,6 @@ h1, h2, h3 { margin: 0; font-weight: 500; }
   object-fit: cover;
 }
 
-.cafe-promo__card {
-  max-width: 560px;
-  margin: 0 auto 40px;
-  padding: 48px 40px;
-  text-align: center;
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius);
-  background: color-mix(in oklch, var(--blush-soft) 35%, var(--cream));
-}
-.cafe-promo__title {
-  font-family: var(--ff-display);
-  font-size: clamp(26px, 3vw, 36px);
-  font-weight: 400;
-  margin: 0 0 20px;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-.cafe-promo__text {
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--cocoa-2);
-  margin: 0 0 16px;
-}
-.cafe-promo__offer {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.55;
-  color: var(--cocoa);
-  margin: 0 0 20px;
-  padding: 16px 18px;
-  border-radius: var(--radius);
-  background: color-mix(in oklch, var(--cream) 70%, var(--blush-soft));
-}
-.cafe-promo__details {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--cocoa-2);
-}
-.cafe-promo__signoff {
-  font-family: var(--ff-display);
-  font-size: 20px;
-  color: var(--cocoa);
-  margin: 8px 0 0;
-  letter-spacing: -0.01em;
-}
-.cafe-promo__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 880px;
-  margin: 0 auto;
-}
-.cafe-promo__item {
-  margin: 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.cafe-promo__item img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 .cafe-loyalty { padding: 100px 0; }
 .cafe-loyalty__inner { max-width: 640px; margin: 0 auto; text-align: center; }
 .cafe-loyalty__text {
@@ -1864,7 +1795,6 @@ section { position: relative; }
   .cafe-space__inner { grid-template-columns: 1fr; }
   .cafe-gallery { grid-template-columns: repeat(2, 1fr); }
   .fresh-finds__grid { grid-template-columns: repeat(2, 1fr); }
-  .cafe-promo__grid { grid-template-columns: 1fr; }
   .about-story__inner { grid-template-columns: 1fr; }
   .about-story__img { order: -1; max-height: 420px; aspect-ratio: 16 / 10; }
   .about-opening__grid { grid-template-columns: repeat(2, 1fr); }
