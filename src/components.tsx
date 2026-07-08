@@ -354,7 +354,7 @@ export function Header() {
     if ('hash' in item && item.hash) return location.hash === `#${item.hash}`;
     return false;
   };
-  const marqueeText = 'Opens Monday to Sunday, 8:00 AM to 8:00 PM | Decolores Village, Poblacion, Pangantucan, Bukidnon';
+  const marqueeText = 'Sunday–Thursday: 10 AM–8 PM · Friday–Saturday: 10 AM–9:30 PM | Decolores Village, Poblacion, Pangantucan, Bukidnon';
   return (
     <>
       <div className="hdr__marquee">
@@ -434,42 +434,91 @@ export const CAFE_MENUS = [
   {
     id: 'coffee',
     label: 'Coffee Favorites',
-    src: '/cafe/update01.png',
+    src: '/cafe/menus/Coffe Favorites.png',
     alt: 'Hey Gurlies coffee favorites menu — hot and iced coffee drinks',
+  },
+  {
+    id: 'matcha',
+    label: 'Matcha & Tea',
+    src: '/cafe/menus/Matcha & Tea (1).png',
+    alt: 'Hey Gurlies matcha favorites menu — classic and flavored matcha lattes',
   },
   {
     id: 'refreshers',
     label: 'House Specials',
-    src: '/cafe/update02.png',
+    src: '/cafe/menus/House specials.png',
     alt: 'Hey Gurlies house specials — sparkling and signature series',
+  },
+  {
+    id: 'frappes',
+    label: 'Fruit Blends & Frappes',
+    src: '/cafe/menus/Frappes.png',
+    alt: 'Hey Gurlies fruit blends and frappes menu',
+  },
+  {
+    id: 'cocktails',
+    label: 'HG Cocktails',
+    src: '/cafe/menus/Cocktails.png',
+    alt: 'Hey Gurlies HG cocktails menu — house specials',
   },
   {
     id: 'sweets',
     label: 'Sweet Treats',
-    src: '/cafe/update03.png',
+    src: '/cafe/menus/Sweet Treats.png',
     alt: 'Hey Gurlies sweet treats menu — cakes, waffles, brownies, and cookies',
-  },
-  {
-    id: 'blends',
-    label: 'Fruit Blends & Frappes',
-    src: '/cafe/update04.png',
-    alt: 'Hey Gurlies fruit blends and frappes menu',
-  },
-  {
-    id: 'noodles',
-    label: 'Noodle Series',
-    src: '/cafe/update05.png',
-    alt: 'Hey Gurlies noodle series menu — ramen and add-ons',
   },
   {
     id: 'bites',
     label: 'Crave Bites',
-    src: '/cafe/update06.png',
+    src: '/cafe/menus/Crave Bites.png',
     alt: 'Hey Gurlies crave bites menu — fries, fruggets, and siomai',
+  },
+  {
+    id: 'noodles',
+    label: 'Noodle Series',
+    src: '/cafe/menus/Noodle Series.png',
+    alt: 'Hey Gurlies noodle series menu — ramen and add-ons',
+  },
+  {
+    id: 'rice',
+    label: 'Rice Meals',
+    src: '/cafe/menus/Rice Meals.png',
+    alt: 'Hey Gurlies rice meals menu — adobo, inasal, fillet, and sisig',
   },
 ];
 
 export function CafeMenu() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const hasLightbox = activeIndex !== null;
+
+  useEffect(() => {
+    if (!hasLightbox) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveIndex(null);
+      if (event.key === 'ArrowRight') {
+        setActiveIndex((idx) => (idx === null ? null : (idx + 1) % CAFE_MENUS.length));
+      }
+      if (event.key === 'ArrowLeft') {
+        setActiveIndex((idx) => (idx === null ? null : (idx - 1 + CAFE_MENUS.length) % CAFE_MENUS.length));
+      }
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [hasLightbox]);
+
+  const showPrev = () => {
+    setActiveIndex((idx) => (idx === null ? null : (idx - 1 + CAFE_MENUS.length) % CAFE_MENUS.length));
+  };
+  const showNext = () => {
+    setActiveIndex((idx) => (idx === null ? null : (idx + 1) % CAFE_MENUS.length));
+  };
+
   return (
     <section className="sec menu" id="menu">
       <div className="container">
@@ -479,7 +528,7 @@ export function CafeMenu() {
           </h2>
           <div className="sec__intro">
             <span className="eyebrow">Hey Gurlies! · Sip, style &amp; stay awhile</span>
-            Coffee, refreshers, sweet treats, noodles, and more — all priced for lingering.
+            Coffee, matcha, cocktails, sweet treats, noodles, rice meals, and more — all priced for lingering.
           </div>
         </Reveal>
         <div className="menu__grid">
@@ -487,17 +536,78 @@ export function CafeMenu() {
             <Reveal key={item.id} className="menu__item" delay={i * 60} id={`menu-${item.id}`}>
               <span className="menu__label">{item.label}</span>
               <div className="menu__frame">
-                <img
-                  className="menu__img"
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <button
+                  className="menu__open"
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  aria-label={`Open ${item.label} menu image in fullscreen`}
+                >
+                  <img
+                    className="menu__img"
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
               </div>
             </Reveal>
           ))}
         </div>
+
+        {hasLightbox && activeIndex !== null && (
+          <div
+            className="menu-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${CAFE_MENUS[activeIndex].label} menu image viewer`}
+            onClick={() => setActiveIndex(null)}
+          >
+            <button
+              type="button"
+              className="menu-lightbox__close"
+              onClick={() => setActiveIndex(null)}
+              aria-label="Close fullscreen menu viewer"
+            >
+              <Icon name="x" size={20} />
+            </button>
+            <button
+              type="button"
+              className="menu-lightbox__nav menu-lightbox__nav--prev"
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrev();
+              }}
+              aria-label="Show previous menu image"
+            >
+              <Icon name="chevL" size={24} />
+            </button>
+            <figure
+              className="menu-lightbox__figure"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                className="menu-lightbox__img"
+                src={CAFE_MENUS[activeIndex].src}
+                alt={CAFE_MENUS[activeIndex].alt}
+              />
+              <figcaption className="menu-lightbox__caption">
+                {CAFE_MENUS[activeIndex].label} · {activeIndex + 1} / {CAFE_MENUS.length}
+              </figcaption>
+            </figure>
+            <button
+              type="button"
+              className="menu-lightbox__nav menu-lightbox__nav--next"
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
+              aria-label="Show next menu image"
+            >
+              <Icon name="chevR" size={24} />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -233,7 +233,7 @@ export function LifestyleSplit({ scriptAccents }: { scriptAccents: boolean }) {
             <span className="num">02</span>
             <div>
               <h3>The café, downstairs.</h3>
-              <p>Coffee, refreshers, and sweet treats. A cozy place to slow down, catch up, and stay awhile. Open daily, 8am to 8pm.</p>
+              <p>Coffee, refreshers, and sweet treats. A cozy place to slow down, catch up, and stay awhile. Sunday–Thursday, 10am to 8pm. Fridays and Saturdays until 9:30pm.</p>
               <Link className="sec__link" to="/cafe#menu" style={{ marginTop: 16, display: 'inline-flex' }}>
                 View the menu <Icon name="pin" size={14} sw={1.8} />
               </Link>
@@ -382,8 +382,8 @@ function Footer() {
               Pangantucan, Bukidnon
             </p>
             <dl className="foot__cafe-hours">
-              <dt>Opens</dt><dd>Monday – Sunday</dd>
-              <dt>Hours</dt><dd>8:00 AM – 8:00 PM</dd>
+              <dt>Sunday – Thursday</dt><dd>10:00 AM – 8:00 PM</dd>
+              <dt>Friday – Saturday</dt><dd>10:00 AM – 9:30 PM</dd>
             </dl>
           </div>
         </div>

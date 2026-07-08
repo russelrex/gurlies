@@ -153,7 +153,7 @@ export default function Cafe() {
             </div>
             <div className="boutique-visit__block">
               <span className="boutique-visit__label">Hours</span>
-              <p>Monday – Sunday<br />9:00 AM – 7:00 PM</p>
+              <p>Sunday – Thursday: 10:00 AM – 8:00 PM<br />Friday – Saturday: 10:00 AM – 9:30 PM</p>
             </div>
             <div className="boutique-visit__block">
               <span className="boutique-visit__label">Contact</span>
