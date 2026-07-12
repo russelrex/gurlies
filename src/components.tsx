@@ -213,15 +213,6 @@ export const CAFE_FEATURED = [
   },
 ] as const;
 
-export const CAFE_GALLERY = Array.from({ length: 16 }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return {
-    id: `pic${n}`,
-    src: `/blogs/pic${n}.jpg`,
-    alt: `Hey Gurlies café and boutique moments — photo ${i + 1}`,
-  };
-});
-
 /** @deprecated use CAFE_CATEGORIES */
 export const CAFE_FAVORITES = CAFE_CATEGORIES;
 
@@ -282,13 +273,6 @@ export const BOUTIQUE_WHY_SHOP = [
   { title: 'Affordable Fashion',   body: 'Look your best without breaking the budget.' },
   { title: 'Community-Focused',    body: "More than a boutique, we're a place where people connect and feel welcome." },
   { title: 'Sip & Style',          body: 'Shop curated fashion, then unwind at our café — all under one cozy roof.' },
-] as const;
-
-export const BOUTIQUE_CUSTOMER_PHOTOS = [
-  { src: '/blogs/pic13.jpg', alt: 'Customer styling at Hey Gurlies' },
-  { src: '/blogs/pic12.jpg', alt: 'Boutique shopping moment' },
-  { src: '/blogs/pic07.jpg', alt: 'Fashion accessories display' },
-  { src: '/blogs/pic14.jpg', alt: 'Happy customer at Hey Gurlies' },
 ] as const;
 
 export const BOUTIQUE_FILTERS = [

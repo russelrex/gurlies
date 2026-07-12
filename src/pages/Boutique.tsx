@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import {
   Icon, Ph, Reveal, ProductCard, FreshFindsGrid,
   BOUTIQUE_COLLECTIONS, BOUTIQUE_WHY_SHOP,
-  BOUTIQUE_CUSTOMER_PHOTOS, HOME_IMAGES, CAFE_IMAGES, CAFE_CATEGORIES,
+  HOME_IMAGES, CAFE_IMAGES, CAFE_CATEGORIES,
 } from '../components';
 import type { Product } from '../components';
+import { PhotoGallery } from '../PhotoGallery';
 
 function BoutiqueHero() {
   return (
@@ -201,13 +202,7 @@ export default function Boutique() {
               Snapshots from the boutique and real moments with our community.
             </div>
           </Reveal>
-          <Reveal className="boutique-fav-photos">
-            {BOUTIQUE_CUSTOMER_PHOTOS.map((photo, i) => (
-              <div key={i} className="boutique-fav-photo">
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
-              </div>
-            ))}
-          </Reveal>
+          <PhotoGallery />
         </div>
       </section>
 

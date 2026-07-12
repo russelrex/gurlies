@@ -1,7 +1,8 @@
 import {
   Icon, Ph, Reveal, CafeMenu,
-  CAFE_IMAGES, CAFE_FEATURED, CAFE_GALLERY,
+  CAFE_IMAGES, CAFE_FEATURED,
 } from '../components';
+import { PhotoGallery } from '../PhotoGallery';
 
 function CafeHero() {
   return (
@@ -104,13 +105,7 @@ export default function Cafe() {
               Coffee, treats, and the cozy corners that make Hey Gurlies feel like home.
             </div>
           </Reveal>
-          <Reveal className="cafe-gallery">
-            {CAFE_GALLERY.map((photo) => (
-              <figure key={photo.id} className="cafe-gallery__item">
-                <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-              </figure>
-            ))}
-          </Reveal>
+          <PhotoGallery />
         </div>
       </section>
 
